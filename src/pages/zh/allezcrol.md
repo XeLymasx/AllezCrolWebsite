@@ -38,7 +38,7 @@ enPath: /en/allezcrol
 
 <aside class="wiki-infobox">
 <div class="infobox-img">
-<img src="/public/person/ac.png" alt="ac" />
+<img src="/person/ac.png" alt="ac" />
 </div>
 <div class="info-row"><b>称谓</b> <span>AllezCrol;AC;Edward</span></div>
 <div class="info-row"><b>职位</b> <span>WebSite Creator,Website Manager,Content Creator.</span></div>
