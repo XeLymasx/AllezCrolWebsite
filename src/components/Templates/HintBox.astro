@@ -1,0 +1,73 @@
+---
+// src/components/HintBox.astro
+const { color, title, content, type = "dark" } = Astro.props;
+---
+
+<div class={`cyber-hint-box theme-${type}`} style={`--box-bg-color: ${color};`}>
+    <div class="hint-header">
+        <span class="hint-title">{title}</span>
+    </div>
+    <div class="hint-content-zone">
+        <p class="hint-text">{content}</p>
+    </div>
+</div>
+
+<style lang="scss">
+  // ==========================================
+  // 💥 锁死本地本地 .ttf 高清源，绝不看网络脸色
+  // ==========================================
+  @font-face {
+    font-family: 'LektonLocal';
+    /* 💡 确保你的文件名和 public/fonts/ 里面的真实文件名完全一致（注意大小写） */
+    src: url('/fonts/Lekton-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .cyber-hint-box {
+    width: 100%;
+    margin: 20px 0;
+    padding: 15px 20px;
+    background-color: var(--box-bg-color);
+    border-radius: 0 !important;
+    box-sizing: border-box;
+
+    // 💥 强制让内容区域使用本地高清 TTF 字体，并开启硬件级边缘抗锯齿平滑
+    font-family: 'LektonLocal', monospace !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    text-rendering: optimizeLegibility !important;
+
+    // 深底白字
+    &.theme-dark {
+      .hint-title, .hint-text { color: #ffffff !important; }
+    }
+    // 浅底黑字
+    &.theme-light {
+      .hint-title, .hint-text { color: #000000 !important; }
+    }
+  }
+
+  .hint-header {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    .hint-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      line-height: 1.2;
+    }
+  }
+
+  .hint-content-zone {
+    width: 100%;
+    .hint-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+  }
+</style>

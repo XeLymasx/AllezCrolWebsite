@@ -1,0 +1,121 @@
+// src/styles/global.scss
+
+// ==========================================
+// 全局超链接统一交互样式（高精尖角矩阵版）
+// ==========================================
+.pixel-link {
+  text-decoration: none; // 彻底抛弃下划线
+  color: #888888;        // 默认灰色
+  position: relative;
+  display: inline-block; // 确保块级包裹
+
+  // 【修改点 1】上下 padding 设为 0，高度完全由字高决定；左右保留 4px 让尖角突出文字一点点
+  padding: 0 4px;
+  border-radius: 0;      // 【修改点 2】彻底抛弃圆角，回归最纯粹的尖角矩形
+
+  cursor: pointer;
+  z-index: 1;
+
+  // 基础动画过渡
+  transition: color 0.25s ease,
+  transform 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+  box-shadow 0.25s ease;
+
+  // 冲击背景块准备工作
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: auto;
+    width: 0;            // 初始隐藏在右侧
+    background-color: #ffcc00; // 黄色背景块
+    border-radius: 0;    // 确保背景块也是绝对的尖角
+    z-index: -1;         // 沉在文字下方
+
+    // 冲击动画
+    transition: width 0.2s cubic-bezier(0.19, 1, 0.22, 1),
+    left 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  // ==========================================
+  // 1. 🔍 悬停效果（Hover）：文字变白 + 尖角矩阵从右向左拉满
+  // ==========================================
+  &:hover {
+    color: #ffffff; // 文字在黄色背景上变成纯白
+
+    &::before {
+      left: 0;
+      width: 100%; // 背景块迅速拉满整个链接
+
+      // 这里的霓虹发光也改成了更硬朗的直角外溢效果
+      box-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
+    }
+  }
+
+  // ==========================================
+  // 2. ⚡ 点击效果（Active）：整体被按下的机械反馈
+  // ==========================================
+  &:active {
+    transform: scale(0.96) translateY(1px); // 紧凑型按键，下压幅度稍微内敛一点
+
+    &::before {
+      box-shadow: 0 0 4px rgba(255, 204, 0, 0.8);
+    }
+
+    transition: transform 0.05s ease;
+  }
+}
+
+
+// ==========================================
+// 全局通用：悬停弹二维码交互样式 (支持尖角硬朗风)
+// ==========================================
+.qr-trigger {
+  position: relative; // 必须是相对定位，作为弹出二维码的锚点
+
+  // 隐藏在内部的二维码图片基础状态
+  .qr-popover {
+    position: absolute;
+    bottom: 140%;        // 稳稳地悬浮在文字正上方
+    left: 50%;
+    transform: translateX(-50%) scale(0.8);
+
+    // ==========================================
+    // 💡 核心修改：尺寸自适应与极限限制
+    // ==========================================
+    width: auto;          // 宽度自适应，根据图片原生比例来
+    height: auto;         // 高度自适应
+
+    max-width: 160px;     // 【安全阀】无论原图多大，宽度死死限制在 160px 内
+    max-height: 160px;    // 【安全阀】高度死死限制在 160px 内
+
+    object-fit: contain;  // 【双保险】即便比例诡异，也保持原图比例缩放，绝不压扁！
+    // ==========================================
+
+    background: #ffffff;
+    padding: 8px;
+    border: 2px solid #ffcc00;
+    border-radius: 0;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: transform 0.25s cubic-bezier(0.19, 1, 0.22, 1),
+    opacity 0.2s ease,
+    box-shadow 0.25s ease;
+
+    z-index: 99;
+  }
+
+  // 🔥 核心交互：当鼠标悬停在这个链接上时
+  &:hover {
+    .qr-popover {
+      opacity: 1;
+      transform: translateX(-50%) scale(1); // 恢复正常大小，产生向上弹出的视觉
+      // 让弹出的二维码卡片也带上标志性的黄色尖角霓虹光晕
+      box-shadow: 0 10px 25px rgba(255, 204, 0, 0.4);
+    }
+  }
+}

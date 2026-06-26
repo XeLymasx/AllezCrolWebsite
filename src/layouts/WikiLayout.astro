@@ -1,0 +1,43 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import LangSwitcher from '../components/LangSwitcher.astro';
+import '/src/style/wiki-style.css';
+
+const { frontmatter } = Astro.props;
+const { title, currentLang, zhPath, enPath } = frontmatter;
+---
+
+<BaseLayout title={title}>
+    <!-- 全局容器，开启相对定位，好让黑框找准位置 -->
+    <div class="wiki-page-root">
+
+        <!-- 翻译黑框：绝对定位，不影响下方布局 -->
+        <div class="wiki-lang-pos">
+            <LangSwitcher
+                    currentLang={currentLang}
+                    zhPath={zhPath}
+                    enPath={enPath}
+            />
+        </div>
+
+        <!-- 这里的结构必须严格保持，否则红条会飞 -->
+        <slot />
+
+    </div>
+</BaseLayout>
+
+<style>
+    .wiki-page-root {
+        position: relative; /* 给黑框当参考点 */
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-top: 40px; /* 给顶部留点呼吸空间 */
+    }
+
+    .wiki-lang-pos {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 100; /* 确保在最前面 */
+    }
+</style>

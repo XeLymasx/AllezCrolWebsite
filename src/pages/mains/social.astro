@@ -1,0 +1,299 @@
+---
+// src/pages/social.astro
+// 这里可以引用你的 Layout
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../style/global.scss'
+---
+
+<BaseLayout title="AllezCrol - Social">
+    <main class="social-container">
+
+        <section class="header-section">
+            <h1 class="main-title">SOCIAL<span></span></h1>
+            <p class="subtitle">Contact the creator to receive the latest updates.</p>
+        </section>
+
+        <section class="links-section">
+        </section>
+
+        <hr class="section-divider" />
+
+        <div class="content-section">
+
+            <section class="sub-block">
+                <h2 class="block-title">For International</h2>
+
+                <div class="media-row row-discord">
+                    <div class="row-left">
+                        <img src="/images/discord.png" alt="Discord" />
+                    </div>
+                    <div class="row-center-line"></div>
+                    <div class="row-right">
+                        <h3>Discord</h3>
+                        <p>
+                            <a href="https://discord.com/users/1292320121653559328" target="_blank" class="pixel-link" rel="noopener noreferrer">AllezCrol-Discord</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="media-row row-roblox">
+                    <div class="row-left">
+                        <img src="/images/roblox.png" alt="Roblox" />
+                    </div>
+                    <div class="row-center-line"></div>
+                    <div class="row-right">
+                        <h3>Roblox</h3>
+                        <p>
+                            <a href="https://www.roblox.com/users/5517721970/profile" target="-_blank" class="pixel-link" rel="noopener noreferrer">AllezCrol-Roblox</a>
+                        </p>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="sub-block">
+                <h2 class="block-title">For Chinese</h2>
+
+                <div class="media-row row-wechat">
+                    <div class="row-left">
+                        <img src="/images/wechat.png" alt="WeChat" />
+                    </div>
+                    <div class="row-center-line"></div>
+                    <div class="row-right">
+                        <h3>微信 / WeChat</h3>
+                        <p>
+                            <a href="javascript:void(0)" class="pixel-link qr-trigger">
+                                AllezCrol-WeChat
+                                <img src="/qr/wechatqr.png" class="qr-popover" alt="WeChat" />
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="media-row row-qq">
+                    <div class="row-left">
+                        <img src="/images/qq.png" alt="QQ" />
+                    </div>
+                    <div class="row-center-line"></div>
+                    <div class="row-right">
+                        <h3>QQ</h3>
+                        <p>
+                            <a href="javascript:void(0)" class="pixel-link qr-trigger">
+                                AllezCrol-QQ
+                                <img src="/qr/qqqr.png" class="qr-popover" alt="QQ" />
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+    </main>
+</BaseLayout>
+
+<style lang="scss">
+  // 容器基础样式
+  .social-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    min-height: 100vh;
+  }
+
+  // 第一部分：标题区域
+  // 第一部分：标题区域
+  .header-section {
+    text-align: center;
+    margin-bottom: 80px;
+
+    .main-title {
+      font-size: 4rem;
+      font-weight: 800;
+      color: #000000; // 初始字体是黑的
+      display: inline-block;
+      cursor: default;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); // 弹性平滑过渡
+      letter-spacing: -1px;
+
+      span {
+        color: #000000; // 句点初始也是黑的
+        transition: color 0.4s ease;
+      }
+
+      // 鼠标悬浮：放大 + 青蓝色
+      &:hover {
+        transform: scale(1.1);
+        color: #00f2ff; // 激活青蓝色
+
+        // 如果你的网页背景偏深，可以保留这个发光；如果是纯白背景，可以把这行删掉
+        text-shadow: 0 0 25px rgba(0, 242, 255, 0.5);
+
+        span {
+          color: #00f2ff; // 句点同步变色
+        }
+      }
+    }
+
+    .subtitle {
+      margin-top: 16px;
+      font-size: 1.1rem;
+      color: #7c7c7c; // 浅色副标题
+      letter-spacing: 0.2em;
+      font-weight: 300;
+      animation: fadeIn 1s ease-out;
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  // 移动端适配
+  @media (max-width: 640px) {
+    .main-title {
+      font-size: 2.8rem;
+    }
+  }
+
+
+  // 全局分割线
+  .section-divider {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1); // 浅色分割线
+    margin: 40px 0;
+    width: 100%;
+  }
+
+  .content-section {
+    width: 100%;
+  }
+
+  .sub-block {
+    margin-bottom: 60px;
+
+    // H2 标题：居中、无悬停样式
+    .block-title {
+      text-align: center;
+      font-size: 1.8rem;
+      color: #333333;
+      margin-bottom: 30px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  // 核心样式：通栏媒体行
+  .media-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 0;
+    position: relative;
+    cursor: pointer;
+
+    margin-inline: calc(50% - 50vw);
+    padding-inline: calc(50vw - 50%);
+
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    // 所有的动画过渡统一托管
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    .row-left {
+      width: 80px;
+      display: flex;
+      justify-content: flex-end;
+      padding-right: 30px;
+      img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+        filter: grayscale(20%);
+        transition: transform 0.3s ease;
+      }
+    }
+
+    .row-center-line {
+      width: 1px;
+      height: 40px;
+      background-color: rgba(0, 0, 0, 0.15); // 初始淡淡的黑色分割线
+      transition: all 0.3s ease;
+    }
+
+    .row-right {
+      width: 200px;
+      padding-left: 30px;
+      text-align: left;
+      h3 { font-size: 1.1rem; margin: 0 0 4px 0; color: #111111; font-weight: 600; }
+      p { font-size: 0.95rem; margin: 0; color: #666666; font-family: monospace; }
+    }
+
+    // ==========================================
+    // 1. 通用的悬停动画效果 (磨砂、图标放大、线变长)
+    // ==========================================
+    &:hover {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      .row-left img {
+        transform: scale(1.1);
+        filter: grayscale(0%);
+      }
+
+      .row-center-line {
+        height: 50px; // 悬停时中间线拉长
+      }
+    }
+
+    // ==========================================
+    // 2. 专属定制色彩效果 (根据 HTML 的独立类名触发)
+    // ==========================================
+
+    // Discord 专属：泛蓝光
+    &.row-discord:hover {
+      background: rgba(88, 101, 242, 0.08);
+      .row-center-line { background-color: rgba(88, 101, 242, 0.5); }
+    }
+
+    // 微信 专属：泛绿光
+    &.row-wechat:hover {
+      background: rgba(7, 193, 96, 0.08);
+      .row-center-line { background-color: rgba(7, 193, 96, 0.5); }
+    }
+
+    // GitHub 专属：暗深色光
+    &.row-github:hover {
+      background: rgba(36, 41, 47, 0.08);
+      .row-center-line { background-color: rgba(36, 41, 47, 0.5); }
+    }
+
+    // QQ 专属：泛天蓝色光 (可根据需要继续追加)
+    &.row-qq:hover {
+      background: rgba(0, 153, 255, 0.08);
+      .row-center-line { background-color: rgba(0, 153, 255, 0.5); }
+    }
+
+    // Roblox 专属：泛暗红/科技红光
+    &.row-roblox:hover {
+      // 使用 0.08 透明度的官方红，既有色彩倾向又不会刺眼，完美融入磨砂背景
+      background: rgba(225, 37, 27, 0.08);
+
+      .row-center-line {
+        background-color: rgba(225, 37, 27, 0.5);
+      }
+    }
+  }
+
+
+
+  // 移动端优化
+  @media (max-width: 640px) {
+    .media-row {
+      .row-left { width: 60px; padding-right: 15px; }
+      .row-right { padding-left: 15px; }
+    }
+  }
+</style>

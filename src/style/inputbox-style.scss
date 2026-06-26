@@ -1,0 +1,55 @@
+// ===================================================
+// 第二部分：INPUTBOX 整体黑色直角框架（仅标题与分割线纯白）
+// ===================================================
+
+// 真正的唯一外层框架：极致简约黑色直角大矩形
+.feedback-input-box {
+  width: 100%;
+  background-color: #000000;          // 极致纯黑底
+  border: 1px solid #000000;          // 💥 框架保持黑色（可根据需求改为截图中的极暗黑/无边框，总之绝非纯白）
+  border-radius: 0 !important;        // 严格死锁尖角矩形
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+
+  // 内部顶端的固定标题区域
+  .input-specifier-header {
+    width: 100%;
+    padding: 16px 16px 0 16px;
+    box-sizing: border-box;
+
+    span {
+      color: #ffffff;                 // 💥 标题纯白
+      font-family: 'LektonLocal', monospace !important;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      display: block;
+    }
+
+    // 💥 分割线：拉长的极细纯白矩形
+    .white-thin-divider {
+      width: 100%;
+      height: 1px;                    // 严格 1px 极细
+      background-color: #ffffff;      // 💥 分割线纯白
+      margin-top: 10px;
+    }
+  }
+
+  // 内部的原生正文输入区域
+  textarea {
+    width: 100%;
+    background: transparent;          // 全透明，继承大盒子的纯黑底
+    border: none !important;          // 彻底砍掉自身所有四边框，绝不产生二次切分
+    outline: none !important;
+    padding: 20px 16px 16px 16px;     // 调整上方间距，与纯白分割线保持完美比例
+    color: #ffffff;                   // 输入文字死白
+    font-family: 'LektonLocal', monospace !important;
+    font-size: 1rem;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 250px;
+    box-sizing: border-box;
+    margin: 0;
+  }
+}

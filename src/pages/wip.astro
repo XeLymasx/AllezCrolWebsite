@@ -1,0 +1,183 @@
+---
+import BaseLayout from '../../src/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="AllezCrol - WipPage">
+    <div class="wip-page">
+        <canvas id="stripeCanvas"></canvas>
+        <canvas id="noiseCanvas"></canvas>
+        <div class="wip-card">
+            <div class="wip-left">
+                <img src="/icon/hintw.png" alt="icon" class="wip-icon" />
+            </div>
+            <div class="wip-divider"></div>
+            <div class="wip-right">
+                <h1 class="wip-title">NOTICE 该页面出现异常情况</h1>
+                <div class="wip-line"></div>
+                <p class="wip-content">如果你来到了红色封锁页面，就说明被被标记的该页面暂未被创建或者因某种原因停用。请离开该页面。</p>
+            </div>
+        </div>
+    </div>
+</BaseLayout>
+
+<script>
+    const stripe = document.getElementById('stripeCanvas') as HTMLCanvasElement;
+    const sCtx = stripe.getContext('2d')!;
+    const noise = document.getElementById('noiseCanvas') as HTMLCanvasElement;
+    const nCtx = noise.getContext('2d')!;
+
+    function resize() {
+        stripe.width = window.innerWidth;
+        stripe.height = window.innerHeight;
+        noise.width = window.innerWidth;
+        noise.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    let stripeOffset = 0;
+
+    function drawStripes() {
+        sCtx.clearRect(0, 0, stripe.width, stripe.height);
+        const sh = 10, gap = 18;
+        for (let y = -gap + (stripeOffset % (sh + gap)); y < stripe.height; y += sh + gap) {
+            sCtx.fillStyle = 'rgba(0,0,0,0.12)';
+            sCtx.fillRect(0, y, stripe.width, sh);
+        }
+        stripeOffset += 0.35;
+    }
+
+    function drawNoise() {
+        const w = noise.width;
+        const h = noise.height;
+        const imageData = nCtx.createImageData(w, h);
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+            const val = Math.random() > 0.5 ? Math.floor(Math.random() * 255) : 0;
+            const alpha = Math.random() * 28;
+            data[i] = val;
+            data[i + 1] = val;
+            data[i + 2] = val;
+            data[i + 3] = alpha;
+        }
+        nCtx.putImageData(imageData, 0, 0);
+    }
+
+    function loop() {
+        drawStripes();
+        drawNoise();
+        requestAnimationFrame(loop);
+    }
+
+    loop();
+</script>
+
+<style lang="scss">
+  @font-face {
+    font-family: 'OCR-A BT';
+    src: url('/fonts/OCR-a___.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .wip-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #cc0000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 999;
+
+    #stripeCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    #noiseCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .wip-card {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      opacity: 0;
+      animation: fadeIn 1.2s ease forwards;
+      animation-delay: 0.3s;
+
+      .wip-left {
+        .wip-icon {
+          width: 100px;
+          height: 100px;
+          object-fit: contain;
+          filter: brightness(0) invert(1);
+        }
+      }
+
+      .wip-divider {
+        width: 2px;
+        height: 160px;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+
+      .wip-right {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-width: 400px;
+
+        .wip-title {
+          font-family: 'OCR-A BT', monospace;
+          font-size: 1.6rem;
+          color: #ffffff;
+          margin: 0;
+          font-weight: normal;
+          letter-spacing: 2px;
+        }
+
+        .wip-line {
+          width: 100%;
+          height: 1px;
+          background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .wip-content {
+          font-family: 'OCR-A BT', monospace;
+          font-size: 0.9rem;
+          color: rgba(255, 255, 255, 0.85);
+          margin: 0;
+          line-height: 1.9;
+          letter-spacing: 1px;
+        }
+      }
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

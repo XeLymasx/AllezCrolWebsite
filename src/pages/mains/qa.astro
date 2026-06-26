@@ -1,0 +1,523 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../style/global.scss'
+const HintBox = (await import('../../components/Templates/HintBox.astro')).default;
+---
+
+<BaseLayout title="AllezCrol - Q&A">
+    <div class="qa-page-container">
+
+        <header class="qa-header">
+            <h1 class="main-title">
+                <span class="letter-q">Q</span>
+                <span class="letter-space">&nbsp;</span>
+                <span class="letter-and">&</span>
+                <span class="letter-space">&nbsp;</span>
+                <span class="letter-a">A</span>
+            </h1>
+
+            <p class="sub-title">
+                SYSTEM FREQUENCY / 常见问题与自动答录机
+            </p>
+        </header>
+
+    </div>
+
+
+    <hr class="cyber-divider" />
+
+    <div class="qa-item-block">
+
+        <div class="qa-number-zone">
+            <span class="qa-index">01</span>
+        </div>
+
+        <div class="qa-center-line"></div>
+
+        <div class="qa-content-zone">
+
+            <div class="qa-questions-wrapper">
+                <div class="question-zh">Q: 这个博客是干什么的？谁在维护？</div>
+                <div class="question-en">Q: Who are you and what is this blog?</div>
+            </div>
+
+            <input type="checkbox" id="qa-toggle-01" class="qa-hidden-checkbox" />
+
+            <label for="qa-toggle-01" class="answer-trigger-box">
+                <span class="trigger-text">Answer</span>
+            </label>
+
+            <div class="answer-animation-wrapper">
+                <div class="answer-popup-content">
+                    <div class="answer-zh">
+                        A: 这是关于用户AllezCrol的个人博客，其内容包含世界观创作以及其它杂项创作。
+                    </div>
+                    <div class="answer-divider"></div>
+                    <div class="answer-en">
+                        A: This is the personal blog of user AllezCrol, and it includes world-building creations as well as other miscellaneous content.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="qa-item-block">
+
+        <div class="qa-number-zone">
+            <span class="qa-index">02</span>
+        </div>
+
+        <div class="qa-center-line"></div>
+
+        <div class="qa-content-zone">
+
+            <div class="qa-questions-wrapper">
+                <div class="question-zh">Q: 该博客网站是否考虑加入账户系统？</div>
+                <div class="question-en">Q: Has the blog website considered adding an account system?</div>
+            </div>
+
+            <input type="checkbox" id="qa-toggle-02" class="qa-hidden-checkbox" />
+
+            <label for="qa-toggle-02" class="answer-trigger-box">
+                <span class="trigger-text">Answer</span>
+            </label>
+
+            <div class="answer-animation-wrapper">
+                <div class="answer-popup-content">
+                    <div class="answer-zh">
+                        A: 以目前的状况来看，暂时并没有打算那么做，但未来还是充满了未知与期待。
+                    </div>
+                    <div class="answer-divider"></div>
+                    <div class="answer-en">
+                        A: Given the current situation, there are no plans to do so for the time being, but the future is still full of unknowns and expectations.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="qa-item-block">
+
+        <div class="qa-number-zone">
+            <span class="qa-index">03</span>
+        </div>
+
+        <div class="qa-center-line"></div>
+
+        <div class="qa-content-zone">
+
+            <div class="qa-questions-wrapper">
+                <div class="question-zh">Q: 该博客网站是否在移动设备的兼容性和展示效果上很完美？</div>
+                <div class="question-en">Q: Is this blog website perfect in terms of compatibility and display on mobile devices?</div>
+            </div>
+
+            <input type="checkbox" id="qa-toggle-03" class="qa-hidden-checkbox" />
+
+            <label for="qa-toggle-03" class="answer-trigger-box">
+                <span class="trigger-text">Answer</span>
+            </label>
+
+            <div class="answer-animation-wrapper">
+                <div class="answer-popup-content">
+                    <div class="answer-zh">
+                        A: 按照目前的情况来看，兼容性方面并没有什么问题，但是在CSS展示效果方面欠佳，所以我推荐用户在PC端浏览该博客网站。
+                    </div>
+                    <div class="answer-divider"></div>
+                    <div class="answer-en">
+                        A: According to the current situation, there are no issues with compatibility, but the CSS display effect is lacking, so I recommend users browse this blog website on a PC.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="qa-item-block">
+
+        <div class="qa-number-zone">
+            <span class="qa-index">04</span>
+        </div>
+
+        <div class="qa-center-line"></div>
+
+        <div class="qa-content-zone">
+
+            <div class="qa-questions-wrapper">
+                <div class="question-zh">Q: 该博客网站关于在内容/排版更新方面的关于时间安排方面的规划是否固定？</div>
+                <div class="question-en">Q: Is the blog site's planning regarding the schedule for content/typography updates fixed?</div>
+            </div>
+
+            <input type="checkbox" id="qa-toggle-04" class="qa-hidden-checkbox" />
+
+            <label for="qa-toggle-04" class="answer-trigger-box">
+                <span class="trigger-text">Answer</span>
+            </label>
+
+            <div class="answer-animation-wrapper">
+                <div class="answer-popup-content">
+                    <div class="answer-zh">
+                        A: 目前来看，完全没办法在固定时间进行更新，更新进度<s>完全</s>按照所有者日常规划的空余时间进行推进。
+                    </div>
+                    <div class="answer-divider"></div>
+                    <div class="answer-en">
+                        A: At present, it is <s>completely impossible</s> to update at fixed times; the progress of updates is carried out according to the owner's available time in their daily schedule.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="qa-item-block">
+
+        <div class="qa-number-zone">
+            <span class="qa-index">05</span>
+        </div>
+
+        <div class="qa-center-line"></div>
+
+        <div class="qa-content-zone">
+
+            <div class="qa-questions-wrapper">
+                <div class="question-zh">Q: 该博客网站是否拥有 评论/留言 系统</div>
+                <div class="question-en">Q: Does this blog website have a comment/message system?</div>
+            </div>
+
+            <input type="checkbox" id="qa-toggle-05" class="qa-hidden-checkbox" />
+
+            <label for="qa-toggle-05" class="answer-trigger-box">
+                <span class="trigger-text">Answer</span>
+            </label>
+
+            <div class="answer-animation-wrapper">
+                <div class="answer-popup-content">
+                    <div class="answer-zh">
+                        A: 请参考 02 号问答板块，由于无法决定日后是否加入账户系统，所也无法决定是否有评论系统。但肯定的是，关于留言方面的问题，用户可以进入<a href="/mains/social" class="pixel-link">Social</a> / <a href="/mains/privacy" class="pixel-link">P-P</a>页面提供的相关联系信息进行留言。
+                    </div>
+                    <div class="answer-divider"></div>
+                    <div class="answer-en">
+                        A: Please refer to Q&A section No. 02. Since it is impossible to decide whether an account system will be added in the future, it is also impossible to determine whether there will be a comment system. However, what is certain is that for issues related to messages, users can leave messages using the relevant contact information provided on the Social/pp page.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="qa-item-block">
+
+        <div class="qa-number-zone">
+            <span class="qa-index">06</span>
+        </div>
+
+        <div class="qa-center-line"></div>
+
+        <div class="qa-content-zone">
+
+            <div class="qa-questions-wrapper">
+                <div class="question-zh">Q: 如果任意访客在该博客网站上发现任何问题以及有任何违规行为，应当如何反馈？</div>
+                <div class="question-en">Q: If any visitor discovers any issues or any violations on this blog website, how should they provide feedback?</div>
+            </div>
+
+            <input type="checkbox" id="qa-toggle-06" class="qa-hidden-checkbox" />
+
+            <label for="qa-toggle-06" class="answer-trigger-box">
+                <span class="trigger-text">Answer</span>
+            </label>
+
+            <div class="answer-animation-wrapper">
+                <div class="answer-popup-content">
+                    <div class="answer-zh">
+                        A: 如果有任意访客在浏览过程当中发现网站方面的任何问题或者内容方面以及(未来账户系统)用户方面的违规行为，请在页脚找到反馈页面进行反馈，详情用法请参考相关页面。
+                    </div>
+                    <div class="answer-divider"></div>
+                    <div class="answer-en">
+                        A: If any visitor discovers any issues with the website, content-related problems, or violations related to users (future account system) during browsing, please find the feedback page in the footer to submit your feedback. For detailed usage, please refer to the relevant page.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    <hr class="cyber-divider" />
+
+    <HintBox color="#ffcc00" type="light" title="Notice" content="本页面暂未完成，已被标记为“实时更新”页面。" />
+
+
+
+</BaseLayout>
+
+<style lang="scss">
+  // ==========================================
+  // 🎛️ Q&A 标题与副标题专属控制台（完整修复版）
+  // ==========================================
+  $color-red: #ff3b30;
+  $color-cyan: #00ffcc;
+  $color-green: #4cd964;
+  $color-text-dim: #777777;
+
+  // 💡 重新精确计算的 15 秒周期反光闪烁时间轴（防止中途卡死）
+  @keyframes glass-sweep {
+    0% {
+      left: -150px;
+      opacity: 0;
+    }
+    1% {
+      opacity: 1; // 准备冲刺时亮起
+    }
+    8% {
+      left: 120%; // 1.2秒内迅速扫过整行文本
+      opacity: 1;
+    }
+    9%, 100% {
+      left: 120%;
+      opacity: 0; // 冲过去之后瞬间隐形，蹲完剩下的13.8秒，等待下一次循环
+    }
+  }
+
+  .qa-page-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+  }
+
+  .qa-header {
+    text-align: center;
+    margin-bottom: 40px;
+
+    // 1. 主标题独立字母悬停抬升变色
+    .main-title {
+      font-size: 3.5rem;
+      color: #000000;
+      font-weight: 900;
+      user-select: none;
+
+      span {
+        display: inline-block;
+        transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s ease;
+        cursor: pointer;
+      }
+
+      // Q 悬停：向上抬 10px 并变红
+      .letter-q:hover {
+        transform: translateY(-10px);
+        color: $color-red;
+      }
+
+      // & 悬停：向上抬 10px 并变青
+      .letter-and:hover {
+        transform: translateY(-10px);
+        color: $color-cyan;
+      }
+
+      // A 悬停：向上抬 10px 并变绿
+      .letter-a:hover {
+        transform: translateY(-10px);
+        color: $color-green;
+      }
+    }
+
+    // 2. 副标题浅色 + 15 秒一循环的玻璃表面扫光
+    .sub-title {
+      position: relative;
+      display: inline-block;
+      font-size: 0.95rem;
+      color: $color-text-dim; // 保持暗淡浅色
+      margin-top: 15px;
+      padding: 5px 30px;      // 左右加宽，预留冲刺缓冲带
+      overflow: hidden;       // 切掉超出容器的白条
+
+      // 制作一道倾斜的白色半透明“玻璃反光条”
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -150px;         // 初始位置在左侧大后方蓄力
+        width: 40px;          // 收细条纹
+        height: 100%;
+        background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.5) 50%, // 玻璃白条中心高亮
+                rgba(255, 255, 255, 0) 100%
+        );
+        transform: skewX(-30deg); // 保持倾斜角度
+        animation: glass-sweep 15s infinite linear;
+        pointer-events: none;
+      }
+    }
+  }
+</style>
+
+
+<style lang="scss">
+  // ==========================================
+  // 🎛️ Q&A 列表板块专属控制台（完全干掉 details 版）
+  // ==========================================
+  $color-border-dark: #333333;
+  $color-green-solid: #4cd964;
+  $color-green-light-bg: #e8fbe9;
+  $color-font-black: #000000;
+
+  // 1. 分割线包裹样式
+  .cyber-divider {
+    border: 0;
+    border-top: 1px dashed $color-border-dark;
+    margin: 30px 0;
+    width: 100%;
+  }
+
+  // 2. 问答条目整体布局
+  .qa-item-block {
+    display: flex;
+    font-family: 'Lektonlocal', monospace !important; // 全局强制锁定 Lekton 字体
+    width: 100%;
+    margin: 20px 0;
+    align-items: stretch;
+  }
+
+  // 左部分：大数字
+  .qa-number-zone {
+    display: flex;
+    align-items: flex-start;
+    padding-right: 25px;
+
+    .qa-index {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #000000;
+      line-height: 1;
+    }
+  }
+
+  // 中间：根据行数向下延伸的分割线
+  .qa-center-line {
+    width: 1px;
+    background-color: $color-border-dark;
+    margin: 0 5px;
+    align-self: stretch;
+  }
+
+  // 右部分：主内容区域
+  .qa-content-zone {
+    flex: 1;
+    padding-left: 25px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  // 中英文问题排版
+  .qa-questions-wrapper {
+    margin-bottom: 20px;
+
+    .question-zh {
+      font-size: 1.1rem;
+      color: #000000;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .question-en {
+      font-size: 0.95rem;
+      color: #aaaaaa;
+    }
+  }
+
+  // 3. 💥 完全隐形开关逻辑
+  .qa-hidden-checkbox {
+    display: none !important; // 彻底从网页上隐藏，不占地方
+    outline: none !important;
+    border: none !important;
+
+    // 💥 终极联动动画：当用户点击触发标签、Checkbox 被勾选时，让紧随其后的动画框展开
+    &:checked ~ .answer-animation-wrapper {
+      max-height: 500px; /* 给予一个足够容纳文本的最大高度值 */
+      opacity: 1;
+    }
+  }
+
+  // 绿色标题框架：全颜色填充，高度极度压扁（完全去符号，绝不触发焦点边框）
+  .answer-trigger-box {
+    display: flex;
+    align-items: center;
+    background: $color-green-solid;
+    padding: 4px 15px;
+    cursor: pointer;
+    user-select: none;
+    outline: none !important;
+    border: none !important;
+    transition: filter 0.2s ease;
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    .trigger-text {
+      font-size: 0.9rem;
+      font-weight: 900;
+      color: #000000; // 框架内 Answer 采用死黑反衬
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      line-height: 1.2;
+    }
+  }
+
+  // 💥 真正的动画核心层：通过 max-height 和 opacity 形成无阻碍的高级向下舒展动效
+  .answer-animation-wrapper {
+    max-height: 0;           /* 初始闭合，不给高度 */
+    opacity: 0;              /* 初始完全隐形 */
+    overflow: hidden;        /* 裁切突出的字 */
+    transition: max-height 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s ease-out; /* 顺滑物理拉伸曲线 */
+    outline: none !important;
+    border: none !important;
+  }
+
+  // 4. 弹出层：浅绿色填充背景 + 全局死黑色字体
+  .answer-popup-content {
+    background: $color-green-light-bg;
+    padding: 15px 20px;
+    outline: none !important;
+    border: none !important; // 💥 彻底根除任何潜在的深色毛边边框
+
+    // 全局强制黑色字体
+    .answer-zh, .answer-en {
+      color: $color-font-black !important;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    .answer-zh {
+      margin-bottom: 10px;
+    }
+
+    // 浅黑色虚线分割线
+    .answer-divider {
+      border-top: 1px dashed rgba(0, 0, 0, 0.15);
+      margin: 10px 0;
+    }
+
+    @font-face {
+      font-family: 'Lektonlocal';
+      src: url('/fonts/Lekton-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+  }
+</style>

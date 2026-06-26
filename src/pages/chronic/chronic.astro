@@ -1,0 +1,294 @@
+---
+// 💥 1. 引入核心基础布局
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionBlock from '../../components/Templates/SectionBlock.astro';
+import HlText from '../../components/Templates/HlText.astro';
+import IdxBox from '../../components/Templates/IdxBox.astro';
+---
+
+<BaseLayout title="AllezCrol - Chronic">
+
+    <div class="absolute-screen-edge-container" ">
+
+        <div class="dashboard-header-plate" id="headerPlate">
+
+            <div class="matrix-grid-mesh"></div>
+
+            <div class="glitch-screen-noise"></div>
+
+            <div class="crosshair-tracker" id="crosshair">
+                <div class="ch-line-v"></div>
+                <div class="ch-line-h"></div>
+            </div>
+
+            <div class="identity-inner-anchor-zone">
+
+                <div class="logo-wrapper">
+                    <img src="/icon/whtlogo.png" alt="WORLD_LOGO" class="art-logo-img" />
+                </div>
+
+                <div class="subtitle-wrapper">
+                    <span class="sub-prefix">[[NOTICE]]</span>
+                    <h1 class="sub-title">你已经进入核心区域，注意行为规范。</h1>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <main class="page-body-content">
+    </main>
+
+    <SectionBlock title="Introduction | 简介" barColor="rgb(180, 30, 30)" titleColor="#ffffff">
+        <p>Chronic 故事观设定在 地球"alternative"平行域的 <HlText hoverColor="rgb(180,30,30)">1970-(?)</HlText> 当中的时间线之间的故事。
+        此平行域固有条件较为特殊，叠加地球自人类文明雏形诞生便积攒的各类遗留弊病，人类所执掌的母星，发展走向逐步偏离既定轨道。
+            <br>人类自诞生之初，就察觉到自己身处在一个截然不同的地球；随着时间的推移，越来越多的祖先们开始察觉到自己身边的同类们，似乎与以往的他（她）...截然不同了。
+            <br>被普通人类视为异类的他（她）们，拥有与生俱来的独特能力；他们拥有超乎常人的身体素质，以及拥有能硬抗导弹的肉体坚硬程度；
+            由于生物自诞生以来便有着自身的独特个性（性格），这也就导致身为特殊人类的他（她）们各自觉醒的能力也与众不同，
+            这也就让普通人类对于他们的形象认同渐渐走上了两条极端的路。
+        </p>
+        <p>人类自文明雏形诞生以来，面临着很多种生死危机，但对于违背自然法则的危机来纵观人类的种族危机，这似乎并不能与其相提并论，甚至是超越人类认知的存在。
+        <br>就是在这样的另类环境当中，人类也毫不意外的产生了两种较为特殊的极端个体 <HlText hoverColor="rgb(30,144,255)">"特殊个体(Special.Human.Traits)"</HlText> &
+            <HlText hoverColor="rgb(128,0,0)">"异常个体(Abnormal.Individual.Nature)"</HlText>。
+        </p>
+        <p>隐藏在黑暗当中的异常生物成为了除开异能者以外的最主要、最致命的捕食者。它们天生与其余两种人类为敌，并且以古时普通人类的防御手段来看，
+        压根就不会对它们造成实质上的威胁，甚至是单方面的屠戮。
+            <br>虽然异能者的存在确实可以普遍降低异常生物对于人类物种造成的死亡率，但越是特殊的个体，越会让内部的矛盾愈演愈烈的激化，甚至会造成同类相残的惨剧。
+            <br>随着人类文明的发展，为了能够在根源上淡化人类物种间不必要的内部矛盾，很多的有志之士与众多追随者们一起创立了的早期对外(异常)组织，
+            并通过早起的选举机制选择出了一位领导者来带领所在的部落国家走向安稳发展的道路。
+        </p>
+    </SectionBlock>
+
+    <SectionBlock title="Index | 索引" barColor="rgb(138,43,226)" titleColor="#ffffff">
+        <div class="idx-grid">
+            <IdxBox title="Characters" image="/things/human.png" href="/wip" />
+            <IdxBox title="Anomalies" image="/things/anomalies.png" href="/wip" />
+            <IdxBox title="WorldView" image="/things/worldview.png" href="/wip" />
+            <IdxBox title="WeaponGears" image="/things/weapons.png" href="/wip" />
+            <IdxBox title="AbilityStat" image="/things/Ability.png" href="/wip" />
+            <IdxBox title="ArtWork" image="/things/artwork.png" href="/wip" />
+            <IdxBox title="Mechanism" image="/things/mechine.png" href="/wip" />
+        </div>
+    </SectionBlock>
+
+
+
+</BaseLayout>
+
+
+
+
+
+<script>
+    // 鼠标十字垂直交叉跟随逻辑
+    const plate = document.getElementById('headerPlate');
+    const crosshair = document.getElementById('crosshair');
+
+    if (plate && crosshair) {
+        plate.addEventListener('mouseenter', () => {
+            crosshair.style.display = 'block';
+        });
+
+        plate.addEventListener('mousemove', (e: MouseEvent) => {
+            const rect = plate.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            crosshair.style.left = `${x}px`;
+            crosshair.style.top = `${y}px`;
+        });
+
+        plate.addEventListener('mouseleave', () => {
+            crosshair.style.display = 'none';
+        });
+    }
+</script>
+
+<style lang="scss">
+  // 💥 核心绝杀：使用绝对定位，无视外层 BaseLayout 的任何 padding / margin 限制
+  .absolute-screen-edge-container {
+    position: absolute;
+    top: 0 !important;   /* 💥 死死焊在最顶端，哪怕 1px 的白缝也不可能漏出来 */
+    left: 0 !important;  /* 💥 贴死左边 */
+    width: 100vw;        /* 💥 撑满整个屏幕宽度 */
+    z-index: 50;         /* 确保在白底之上的正确层级 */
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  // 💥 黑色背景板：高度 380px，宽度填满
+  .dashboard-header-plate {
+    width: 100vw;
+    height: 380px;
+    background-color: #000000;
+    position: relative;
+    overflow: hidden;
+    cursor: none;      /* 隐藏原生指针 */
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  // 💥 细网格无限移动
+  .matrix-grid-mesh {
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background-image:
+            linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 35px 35px;
+    animation: gridDiagonalMove 30s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @keyframes gridDiagonalMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-140px, 140px); }
+  }
+
+  // 💥 现代摄像机花屏
+  .glitch-screen-noise {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+            rgba(18, 18, 18, 0) 50%,
+            rgba(0, 0, 0, 0.15) 50%
+    ), linear-gradient(
+            90deg,
+            rgba(255, 0, 0, 0.02),
+            rgba(0, 255, 0, 0.01),
+            rgba(0, 0, 255, 0.02)
+    );
+    background-size: 100% 4px, 6px 100%;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 2;
+    animation: screenFlicker 0.2s infinite;
+  }
+
+  @keyframes screenFlicker {
+    0% { opacity: 0.65; }
+    50% { opacity: 0.75; }
+    100% { opacity: 0.65; }
+  }
+
+  // 💥 十字垂直交叉跟随器
+  .crosshair-tracker {
+    position: absolute;
+    width: 0;
+    height: 0;
+    display: none;
+    pointer-events: none;
+    z-index: 999;
+
+    .ch-line-v {
+      position: absolute;
+      width: 1px;
+      height: 2000px;
+      background-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-50%);
+    }
+
+    .ch-line-h {
+      position: absolute;
+      height: 1px;
+      width: 4000px;
+      background-color: rgba(255, 255, 255, 0.25);
+      transform: translateX(-50%);
+    }
+  }
+
+  // 💥 品牌排版（在黑板内部左下方）
+  .identity-inner-anchor-zone {
+    position: absolute;
+    bottom: 50px;
+    left: 8%;
+    display: flex;
+    align-items: flex-end;
+    gap: 28px;
+    z-index: 10;
+  }
+
+  // 大 Logo 区域
+  .logo-wrapper {
+    height: 90px;
+    display: flex;
+    align-items: flex-end;
+
+    .art-logo-img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  // 副标题
+  .subtitle-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding-bottom: 6px;
+
+    .sub-prefix {
+      color: #666666;
+      font-family: 'LektonLocal', monospace !important;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .sub-title {
+      margin: 0;
+      color: #ffffff;
+      font-family: 'LektonLocal', monospace !important;
+      font-size: 1.05rem;
+      font-weight: normal;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+  }
+
+  // 💥 页面下方其余内容的容器
+  .page-body-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    // 💥 重点：因为上面的黑板用了绝对定位，这里必须加一个 margin-top 把它撑开
+    // 380px 的黑板高度 + 40px 的内容间距 = 420px
+    margin-top: 420px;
+
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+
+</style>
+
+<style lang="scss">
+    .idx-grid {
+      display: flex;
+      grid-template-columns: repeat(7,1fr);
+      justify-content: center;
+      gap: 24px;
+      padding: 40px;
+      margin: 0 auto;
+    }
+</style>
+
+<style is:global>
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: hidden;
+        position: relative;
+    }
+</style>
+

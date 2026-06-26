@@ -1,0 +1,170 @@
+---
+
+// src/pages/feedback.astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// 💥 必须加上这一行数组定义，下面的 .map 才能拿到数据，红字会立刻消失！
+const subTitles = [
+"Submit feedback on any type of issue with this website.",
+"Write down the issues you want to provide feedback on and any other necessary related information.",
+"Take a screenshot of the relevant content you wrote, send it to the Owner's email, and await confirmation for review."
+];
+
+const HintBox = (await import('../../components/Templates/HintBox.astro')).default;
+
+const SelectBox = (await import('../../components/Templates/SelectBox.astro')).default;
+---
+
+<BaseLayout title="AllezCrol - Feedback">
+    <div class="feedback-page-container">
+
+        <h1 class="feedback-title">FeedBack</h1>
+
+        <div class="scroller-window">
+            <div class="scroller-track">
+                {subTitles.map((text) => (
+                        <div class="scroller-item">{text}</div>
+                ))}
+                <div class="scroller-item">{subTitles[0]}</div>
+            </div>
+        </div>
+
+        <div class="feedback-content-body">
+        </div>
+
+    </div>
+
+    <HintBox color="#2E8B57" type="dark" title="Hint" content="在以下栏目完成填写相关信息之后，截取相关内容图片，并通过邮箱发送给Owner." />
+
+    <HintBox color="#ffcc00" type="light" title="Notice" content="本页面暂未完成，已被标记为“实时更新”页面。" />
+
+    <HintBox color="#FFB6C1" type="light" title="Info" content="Owner的常用邮箱地址：yunya_2024@foxmail.com" />
+
+    <div class="feedback-input-box">
+        <div class="input-specifier-header">
+            <span>详细问题细节</span>
+            <div class="white-thin-divider"></div> </div>
+
+        <textarea placeholder="Enter ur message.."></textarea>
+
+    </div>
+
+    <div style="margin: 16px 0; width: 100%; height: 1px; background-color: #000000;"></div>
+
+    <SelectBox placeholder="问题类型">
+        <div data-option>BUG REPORT // 程序错误</div>
+        <div data-option>SUGGESTION // 意见建议</div>
+        <div data-option>UI FEEDBACK // 界面反馈</div>
+        <div data-option>OTHER // 其他类型</div>
+    </SelectBox>
+
+    <div style="margin: 16px 0; width: 100%; height: 1px; background-color: #000000;"></div>
+
+    <SelectBox placeholder="问题程度">
+        <div data-option>Low // 无关紧要</div>
+        <div data-option>Warn // 潜在风险</div>
+        <div data-option>Medium // 问题紧急</div>
+        <div data-option>High // 问题严重</div>
+    </SelectBox>
+
+    <div style="margin: 16px 0; width: 100%; height: 1px; background-color: #000000;"></div>
+
+    <div class="feedback-input-box">
+        <div class="input-specifier-header">
+            <span>联系方式</span>
+            <div class="white-thin-divider"></div> </div>
+
+        <textarea placeholder="在此输入你的联系方式，以便能在解决问题期间，问题解决后联系您"></textarea>
+
+    </div>
+
+
+</BaseLayout>
+
+<style lang="scss">
+  // ==========================================
+  // 🎛️ 本地 TTF 超清死锁 & 动画控制台
+  // ==========================================
+  @font-face {
+    font-family: 'LektonLocal';
+    src: url('/fonts/Lekton-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .feedback-page-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 0;
+    // 💥 强行绑定本地超清，开启硬件级抗锯齿，绝不碎成方块像素
+    font-family: 'LektonLocal', monospace !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    text-rendering: optimizeLegibility !important;
+  }
+
+  // 大标题：悬停放大，变亮红，触发红光发光
+  .feedback-title {
+    font-size: 6rem;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+    cursor: pointer;
+    text-transform: uppercase;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+    &:hover {
+      transform: scale(1.15);
+      color: #ff0000;
+      text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+    }
+  }
+
+  // 副标题滚动视窗：100% 宽度，拒绝任何 max-width 字符截断
+  .scroller-window {
+    height: 30px;
+    overflow: hidden;
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  .scroller-track {
+    width: 100%;
+    animation: vertical-slide-10s 30s cubic-bezier(0.85, 0, 0.15, 1) infinite;
+  }
+
+  .scroller-item {
+    height: 30px;
+    line-height: 30px;
+    font-size: 0.95rem;
+    color: #888888;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap; // 💥 核心：强制单行不换行，你写多长它就向横向无限制延伸多长！
+  }
+
+  // 10秒精准交替换行关键帧
+  @keyframes vertical-slide-10s {
+    0%, 30% { transform: translateY(0); }
+    33%, 63% { transform: translateY(-30px); }
+    66%, 96% { transform: translateY(-60px); }
+    100% { transform: translateY(-90px); }
+  }
+
+  .feedback-content-body {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 40px;
+  }
+</style>
+
+<style lang="scss">
+    @import '../../style/inputbox-style';
+
+</style>

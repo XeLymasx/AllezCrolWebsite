@@ -1,0 +1,47 @@
+---
+// src/components/template/AlertLine.astro
+// 黄黑相间动态警戒线框架组件
+---
+
+<div class="hazard-split-line-frame"></div>
+
+<style lang="scss">
+  .hazard-split-line-frame {
+    // 💥 1. 强制脱离外层所有容器的宽度限制，直接占满整个浏览器屏幕左右边缘
+    width: 100vw !important;
+    // 💥 2. 锁死框架厚度为 12px，任何环境都不可能把它撑开、拉大
+    height: 12px !important;
+
+    // 💥 3. 使用标准流排队，并利用偏方强行撕开左右外边距，确保完美贴边且绝不留空
+    display: block !important;
+    position: relative !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+
+    // 💥 4. 重新精确校准的 CSS 线性渐变：固定条纹宽度为 15px，且限定 background-size 为 42px，绝不放大变形
+    background: repeating-linear-gradient(
+            -45deg,
+            #ffcc00,
+            #ffcc00 15px,
+            #000000 15px,
+            #000000 30px
+    ) !important;
+    background-size: 42px 100% !important;
+    background-repeat: repeat-x !important;
+
+    // 💥 5. 从左往右无缝循环平滑滚动
+    animation: hazardTemplateScrollRight 1.2s linear infinite !important;
+  }
+
+  @keyframes hazardTemplateScrollRight {
+    0% { background-position: 0 0; }
+    100% { background-position: 42px 0; }
+  }
+</style>

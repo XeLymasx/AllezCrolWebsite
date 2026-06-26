@@ -1,0 +1,129 @@
+---
+// 接收参数：当前语言、中文版链接、英文版链接
+const { currentLang, zhPath = "#", enPath = "#" } = Astro.props;
+---
+
+<div class="lang-container" id="langBtn">
+    <!-- 黑色主框架 -->
+    <div class="lang-box">
+        <span class="lang-label">LANGUAGE</span>
+        <div class="arrow-icon"></div>
+    </div>
+
+    <!-- 下拉弹出框架 -->
+    <div class="lang-menu" id="langMenu">
+        <a href={zhPath} class={`lang-item ${currentLang === 'zh' ? 'is-active' : ''}`}>
+            中文
+        </a>
+        <div class="menu-divider"></div>
+        <a href={enPath} class={`lang-item ${currentLang === 'en' ? 'is-active' : ''}`}>
+            English
+        </a>
+    </div>
+</div>
+
+<style>
+    .lang-container {
+        position: relative;
+        display: inline-block;
+        user-select: none;
+        font-family: system-ui, sans-serif;
+    }
+
+    /* 黑色主框 */
+    .lang-box {
+        background: #000000;
+        color: #ffffff;
+        border: 1px solid #333333;
+        padding: 6px 14px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .lang-box:hover { border-color: #666; }
+
+    .lang-label { font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+
+    /* 箭头 */
+    .arrow-icon {
+        width: 0; height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 5px solid #888;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .lang-container.is-open .arrow-icon { transform: rotate(180deg); }
+
+    /* 下拉黑框 */
+    .lang-menu {
+        position: absolute;
+        top: calc(100% + 6px);
+        right: 0;
+        width: 130px;
+        background: #000000;
+        border: 1px solid #333333;
+        display: none; /* 由 JS 控制 */
+        flex-direction: column;
+        padding: 5px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        z-index: 9999;
+    }
+    .lang-menu.show { display: flex; animation: slideDown 0.25s ease-out; }
+
+    /* 选项与白色方框高亮 */
+    .lang-item {
+        color: #999;
+        text-decoration: none;
+        font-size: 13px;
+        padding: 8px 12px;
+        transition: all 0.2s;
+        margin: 2px 0;
+    }
+    .lang-item:hover { color: #fff; background: #1a1a1a; }
+
+    /* 关键：当前语言的白色方框高亮 */
+    .lang-item.is-active {
+        color: #ffffff;
+        outline: 1px solid #ffffff; /* 白色方块边框 */
+        background: #111111;
+    }
+
+    .menu-divider { height: 1px; background: #222; margin: 4px 8px; }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<script>
+    function initSwitcher() {
+        const btn = document.getElementById('langBtn');
+        const menu = document.getElementById('langMenu');
+        if (!btn || !menu) return;
+
+        btn.onclick = (e) => {
+            e.stopPropagation();
+            const isOpen = menu.classList.contains('show');
+            if (isOpen) {
+                menu.classList.remove('show');
+                btn.classList.remove('is-open');
+            } else {
+                menu.classList.add('show');
+                btn.classList.add('is-open');
+            }
+        };
+
+        document.onclick = () => {
+            menu.classList.remove('show');
+            btn.classList.remove('is-open');
+        };
+    }
+
+    // 初始化逻辑
+    initSwitcher();
+    // 适配 Astro 的页面切换动画
+    document.addEventListener('astro:after-swap', initSwitcher);
+</script>

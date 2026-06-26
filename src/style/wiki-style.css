@@ -1,0 +1,102 @@
+/* 确保背景是白的（对应你图中的亮色模式） */
+:root {
+    --wiki-red: #ff0000;
+    --wiki-bg: #ffffff;
+    --wiki-text: #333333;
+    --info-bg: #222222;
+    --info-text: #ffffff;
+}
+
+/* 页面整体容器 */
+.wiki-wrapper {
+    display: flex;
+    gap: 50px;
+    max-width: 1200px;
+    margin: 40px auto;
+    align-items: flex-start;
+    font-family: sans-serif;
+}
+
+/* 左侧导航栏：连贯红线 */
+.wiki-sidebar {
+    flex: 0 0 160px;
+    position: sticky;
+    top: 20px;
+    border-left: 4px solid var(--wiki-red);
+    padding: 10px 0;
+}
+
+.sidebar-nav a {
+    display: block;
+    padding: 10px 20px;
+    color: var(--wiki-text) !important;
+    text-decoration: none !important;
+    font-weight: bold;
+    font-size: 0.85rem;
+    transition: 0.2s;
+    text-transform: uppercase;
+}
+
+.sidebar-nav a:hover {
+    color: var(--wiki-red) !important;
+    background: rgba(255, 0, 0, 0.05);
+}
+
+/* 右侧信息框：黑底白字 */
+/* 信息框主体 */
+.wiki-infobox {
+    float: right;
+    /* 核心：宽度根据内容（图片）的最小需求自适应 */
+    width: min-content;
+    min-width: 280px;   /* 基础宽度，不至于太窄 */
+    max-width: 40vw;    /* 宽度上限：最多占屏幕宽度的 40%，防止横图挤掉正文 */
+
+    background: #000;
+    border: 1px solid #333;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 图片容器 */
+.wiki-infobox .infobox-img {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* 图片自适应逻辑 */
+.wiki-infobox .infobox-img img {
+    /* 1. 基础：长宽自适应比例 */
+    width: auto;
+    height: auto;
+
+    /* 2. 双向限制：
+       如果是超级宽图，宽度会被 max-width 挡住；
+       如果是超级长图，高度会被 max-height 挡住。 */
+    max-width: 100%;
+    max-height: 70vh; /* 高度上限：最多占屏幕高度的 70%，保证不刷不到头 */
+
+    /* 3. 保持比例不拉伸 */
+    object-fit: contain;
+    display: block;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #333;
+    padding: 8px 0;
+    font-size: 13px;
+}
+
+.info-row b { color: #aaa !important; }
+.info-row span { color: #fff !important; }
+
+/* 正文标题区 */
+.wiki-header-center { text-align: center; margin-bottom: 20px; }
+.wiki-hr { border: none; border-top: 1px solid #ddd; width: 100%; margin-bottom: 30px; }
+.wiki-content h2 { border-bottom: 1px solid #eee; padding-bottom: 5px; margin-top: 0; }

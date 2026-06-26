@@ -1,0 +1,127 @@
+---
+// src/components/SelectBox.astro
+interface Props {
+    placeholder: string;
+}
+const { placeholder } = Astro.props;
+---
+
+<div class="minimal-select">
+    <div class="input-specifier-header select-view-trigger">
+        <span class="select-view">{placeholder}</span>
+        <div class="white-thin-divider"></div>
+    </div>
+    <div class="select-menu">
+        <slot />
+    </div>
+</div>
+
+<script>
+    // 💥 换成最纯粹的原生 JS 委托，去掉所有 'as HTMLElement'，彻底杜绝编译器的 AST 解析 Bug！
+    document.addEventListener('click', function(e) {
+        var target = e.target;
+        if (!target) return;
+
+        // 1. 点击顶栏触发
+        var trigger = target.closest('.select-view-trigger');
+        if (trigger) {
+            var selectBox = trigger.closest('.minimal-select');
+            if (selectBox) {
+                selectBox.classList.toggle('active');
+                document.querySelectorAll('.minimal-select').forEach(function(box) {
+                    if (box !== selectBox) box.classList.remove('active');
+                });
+            }
+            return;
+        }
+
+        // 2. 点击选项
+        var optionItem = target.closest('[data-option]');
+        if (optionItem) {
+            var currentSelect = optionItem.closest('.minimal-select');
+            if (currentSelect) {
+                var view = currentSelect.querySelector('.select-view');
+                if (view) {
+                    view.textContent = optionItem.textContent;
+                }
+                currentSelect.classList.remove('active');
+            }
+            return;
+        }
+
+        // 3. 点击空白收起
+        document.querySelectorAll('.minimal-select').forEach(function(box) {
+            box.classList.remove('active');
+        });
+    });
+</script>
+
+<style lang="scss">
+  // 保持你完美的纯黑样式不变
+  .minimal-select {
+    width: 100%;
+    background-color: #000000;
+    cursor: pointer;
+    user-select: none;
+    box-sizing: border-box;
+
+    .input-specifier-header {
+      width: 100%;
+      padding: 16px 16px 0 16px;
+      box-sizing: border-box;
+
+      .select-view {
+        color: #ffffff;
+        font-family: 'LektonLocal', monospace !important;
+        font-size: 1.1rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        display: block;
+      }
+
+      .white-thin-divider {
+        width: 100%;
+        height: 1px;
+        background-color: #ffffff;
+        margin-top: 10px;
+      }
+    }
+
+    .select-menu {
+      /* 💥 精准找到 .select-menu，直接把大括号里面的内容换成这几行 */
+      width: 100%;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      padding: 0 16px;
+      box-sizing: border-box;
+      transition: max-height 0.35s ease, opacity 0.25s ease;
+
+      background-color: #ffffff; /* 💥 背景彻底改成纯白 */
+
+      :global([data-option]) {
+        padding: 14px 0;
+        background-color: #ffffff; /* 💥 文字背景纯白 */
+        color: #111111 !important; /* 💥 文字彻底改成清晰的纯黑 */
+        font-family: 'LektonLocal', monospace !important;
+        font-size: 0.95rem;
+        font-weight: bold;
+        border-bottom: 1px solid #eeeeee; /* 💥 线条改成浅灰 */
+        transition: all 0.2s ease;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #f5f5f5;
+          color: #000000 !important;
+        }
+      }
+    }
+
+    &.active {
+      .select-menu {
+        max-height: 250px;
+        opacity: 1;
+      }
+    }
+  }
+</style>

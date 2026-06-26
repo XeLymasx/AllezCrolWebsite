@@ -1,0 +1,47 @@
+/* 进阶 Ruby 样式 */
+ruby {
+    display: inline-flex;
+    flex-direction: column-reverse; /* 强制上下结构 */
+    align-items: center;
+    vertical-align: bottom;
+    margin: 0 4px;
+    cursor: default;
+}
+
+/* 标头文字 (rt) */
+rt {
+    display: block; /* 必须转为块级以支持边框和投影 */
+    font-size: 10px;
+    color: #888; /* 默认灰色 */
+    letter-spacing: 0.15em; /* 增加字间距 */
+    text-transform: uppercase;
+    padding-bottom: 3px; /* 为分割线留出空间 */
+
+    /* 黑色分割线 */
+    border-bottom: 1px solid #000;
+
+    /* 动画过渡 */
+    transition: all 0.3s ease;
+    line-height: 1;
+    user-select: none;
+}
+
+/* 主文字 (ruby 内部的文本) */
+ruby {
+    /* 这里的颜色和大小会继承父级，无需特殊设置 */
+    line-height: 1.2;
+}
+
+/* 悬停效果：作用于 rt 标签 */
+ruby:hover rt {
+    color: #ff0000; /* 字体变红 */
+    border-bottom-color: #ff0000; /* 分割线同步变红 */
+    /* 红色发光效果 (Glow) */
+    text-shadow: 0 0 8px rgba(255, 0, 0, 0.8), 0 0 12px rgba(255, 0, 0, 0.4);
+    filter: brightness(1.2);
+}
+
+/* 悬停时主文字也可以做轻微变亮处理（可选） */
+ruby:hover {
+    color: #000000;
+}

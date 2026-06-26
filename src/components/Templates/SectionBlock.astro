@@ -1,0 +1,110 @@
+---
+const { title, barColor = "rgb(180, 30, 30)", titleColor = "#ffffff" } = Astro.props;
+---
+
+<section class="section-block">
+    <div class="section-header">
+        <div class="section-bar" style={`background-color: ${barColor}`}></div>
+        <h2 class="section-title" style={`color: ${titleColor}`}>{title}</h2>
+    </div>
+
+    <div class="section-content">
+        <div class="divider"></div>
+        <slot />
+        <div class="divider"></div>
+    </div>
+</section>
+
+<script>
+    const sections = document.querySelectorAll('.section-block') as NodeListOf<HTMLElement>;
+
+    sections.forEach((section) => {
+        const bar = section.querySelector('.section-bar') as HTMLElement;
+        const dividers = section.querySelectorAll('.divider') as NodeListOf<HTMLElement>;
+
+        const rect = section.getBoundingClientRect();
+
+        section.style.marginLeft = `-${rect.left}px`;
+        section.style.width = `${window.innerWidth}px`;
+
+        if (bar) {
+            bar.style.width = `${window.innerWidth}px`;
+        }
+
+        dividers.forEach((d) => {
+            d.style.width = `${window.innerWidth}px`;
+            d.style.marginLeft = `-40px`;
+        });
+    });
+</script>
+
+<style lang="scss">
+  @font-face {
+    font-family: 'OCR-A BT';
+    src: url('/fonts/OCR-a___.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .section-block {
+    padding: 60px 0;
+    color: #fff;
+    font-family: 'OCR-A BT', monospace;
+
+    .section-header {
+      position: relative;
+      height: 48px;
+      margin-bottom: 40px;
+
+      .section-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform-origin: right center;
+        transform: scaleX(0);
+        animation: barExpand 0.8s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+        animation-delay: 0.2s;
+      }
+
+      .section-title {
+        position: absolute;
+        top: 50%;
+        left: 40px;
+        transform: translateY(-50%);
+        font-size: 2rem;
+        font-weight: normal;
+        font-family: 'OCR-A BT', monospace;
+        margin: 0;
+        z-index: 1;
+        white-space: nowrap;
+        text-align: left;
+      }
+    }
+
+    .section-content {
+      padding: 0 40px;
+      text-align: left;
+
+      .divider {
+        height: 3px;
+        background-color: #000000;
+      }
+
+      :global(p) {
+        margin: 16px 0;
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #000000;
+        text-align: left;
+        font-family: 'OCR-A BT', monospace;
+      }
+    }
+  }
+
+  @keyframes barExpand {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+</style>

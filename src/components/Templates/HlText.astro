@@ -1,0 +1,19 @@
+---
+const { hoverColor = "rgb(180,30,30)" } = Astro.props;
+---
+
+<span class="hl-text" style={`--hl-hover: ${hoverColor}`}>
+    <slot />
+</span>
+
+<style lang="scss">
+    .hl-text {
+      color: #000000;
+      cursor:default;
+      transition : color 0.3s ease;
+
+      &:hover {
+        color: var(--hl-hover);
+      }
+    }
+</style>

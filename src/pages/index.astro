@@ -1,0 +1,424 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="AllezCrol - Home">
+    <section class="hero-section">
+        <h1 class="main-title">
+            <span class="word blog">Blog</span>
+            <span class="word de">de</span>
+            <span class="word name">AllezCrol</span>
+        </h1>
+
+        <p class="sub-title">AllezCrol will record his life in here.</p>
+    </section>
+
+    <hr class="section-divider" />
+
+    <div class="cards-container">
+        <div class="info-card" data-type="bio">
+            <div class="card-image">
+            <img src="/images/human.png" alt="Bio Image"/>
+            </div>
+            <div class="vertical-line"></div>
+            <div class="card-content">
+                <h3 class="card-title">BIO</h3>
+                <p class="card-text">AllezCrol is someone who wants to try out projects they're interested in. (Maybe just because they're feeling bored).</p>
+            </div>
+        </div>
+
+        <div class="info-card" data-type="mission">
+            <div class="card-image">
+            <img src="/images/webicon.png" alt="Site Icon"/>
+            </div>
+            <div class="vertical-line"></div>
+            <div class="card-content">
+                <h3 class="card-title">SITE MISSION</h3>
+                <p class="card-text">As the blog site of AllezCrol, this collects all creative works related to AC as an individual.</p>
+            </div>
+        </div>
+
+        <div class="info-card" data-type="contents">
+            <div class="card-image">
+            <img src="/images/content.png" alt="Contents Icon"/>
+            </div>
+            <div class="vertical-line"></div>
+            <div class="card-content">
+                <h3 class="card-title">CONTENTS</h3>
+                <p class="card-text">Includes content such as AC(AllezCrol)'s original worldview, artwork, and game insights.</p>
+            </div>
+        </div>
+
+        <div class="info-card" data-type="social">
+            <div class="card-image">
+            <img src="/images/social.png" alt="Social Icon"/>
+            </div>
+            <div class="vertical-line"></div>
+            <div class="card-content">
+                <h3 class="card-title">SOCIAL MEDIA</h3>
+                <p class="card-text">Find me on Discord, Roblox, WeChat, QQ. </br>
+                (For detailed contact information, please refer to <b>About/Social/</b>).<br/>
+                Let's understand each other!!</p>
+            </div>
+        </div>
+    </div>
+
+    <hr class="section-divider" />
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active'); // 进入正前方
+                } else {
+                    entry.target.classList.remove('active'); // 移出正前方
+                }
+            });
+        }, { threshold: 0.6 }); // 60% 面积出现在正前方时触发
+
+        document.querySelectorAll('.info-card').forEach(card => observer.observe(card));
+    </script>
+
+    <section class="creators-section">
+        <div class="creators-header">
+            <h2 class="section-title-h2">
+                <span class="word c-creators">Creators</span>
+                <span class="word c-ampersand">&</span>
+                <span class="word c-tech">Techn Suppo</span>
+            </h2>
+            <p class="section-subtitle">A list of blog website owners and technical support.</p>
+        </div>
+
+        <hr class="section-divider" />
+
+        <div class="nodes-container">
+            <div class="dotted-line"></div>
+            <div class="nodes-wrapper">
+                <div class="node active" data-index="0"></div>
+                <div class="node" data-index="1"></div>
+                <div class="node" data-index="2"></div>
+            </div>
+        </div>
+
+        <div class="info-panel-container">
+            <div id="info-panel" class="info-panel">
+                <div class="panel-image-row">
+                    <img src="/ctsimages/AllezCrol.png" alt="Display" class="panel-img" id="display-img" />
+                </div>
+                <div class="panel-content">
+                    <h4 class="panel-name" id="display-name">AllezCrol</h4>
+                    <p class="panel-bio" id="display-bio">
+                    Website creator, website manager, content creator. I am a very curious person who wants to try everything.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <hr class="section-divider" />
+    </section>
+
+    <script>
+        const creatorsData = [
+            {
+                name: "AllezCrol",
+                bio: "Website creator, website manager, content creator. I am a very curious person who wants to try everything.",
+                img: "/ctsimages/AllezCrol.png"
+            },
+            {
+                name: "Astro",
+                bio: "The web framework for content-driven websites. Powering this blog with lightning-fast performance.",
+                img: "public/ctsimages/astro.png"
+            },
+            {
+                name: "WebStorm",
+                bio: "The smartest JavaScript IDE. Providing the essential technical environment for crafting every line of code.",
+                img: "public/ctsimages/webstorm.png"
+            }
+        ];
+
+        const nodes = document.querySelectorAll('.node');
+        const panel = document.getElementById('info-panel');
+        const dImg = document.getElementById('display-img');
+        const dName = document.getElementById('display-name');
+        const dBio = document.getElementById('display-bio');
+
+        nodes.forEach(node => {
+            node.addEventListener('click', () => {
+                const index = node.getAttribute('data-index');
+
+                // 切换节点状态
+                nodes.forEach(n => n.classList.remove('active'));
+                node.classList.add('active');
+
+                // 切换内容动画
+                panel.style.opacity = "0";
+                panel.style.transform = "translateY(10px)";
+
+                setTimeout(() => {
+                    dImg.src = creatorsData[index].img;
+                    dName.textContent = creatorsData[index].name;
+                    dBio.textContent = creatorsData[index].bio;
+
+                    panel.style.opacity = "1";
+                    panel.style.transform = "translateY(0)";
+                }, 300);
+            });
+        });
+    </script>
+</Layout>
+
+<style>
+    /* 容器居中 */
+    .hero-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 100px 20px; /* 上下预留足够的呼吸空间 */
+        text-align: center;
+    }
+
+    /* 主标题基础样式 */
+    .main-title {
+        font-size: 4rem; /* 足够大才有冲击力 */
+        font-weight: 800;
+        margin-bottom: 1rem;
+        cursor: default;
+    }
+
+    /* 单词基础互动逻辑 */
+    .word {
+        display: inline-block; /* 必须是 inline-block 才能应用 transform 放大 */
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* 加入回弹效果，让动画更顺滑 */
+        margin: 0 5px;
+    }
+
+    /* 1. Blog: 放大 + 紫色 */
+    .word.blog:hover {
+        color: #a855f7; /* 紫色 */
+        transform: scale(1.2);
+    }
+
+    /* 2. de: 放大 + 粉色 */
+    .word.de:hover {
+        color: #ec4899; /* 粉色 */
+        transform: scale(1.2);
+    }
+
+    /* 3. AllezCrol: 放大 + 红色 */
+    .word.name:hover {
+        color: #ef4444; /* 红色 */
+        transform: scale(1.1); /* 名字较长，缩放略小一点更协调 */
+    }
+
+    /* 灰色副标题 */
+    .sub-title {
+        color: #888;
+        font-size: 1.2rem;
+        font-weight: 400;
+        letter-spacing: 1px;
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 768px) {
+        .main-title {
+            font-size: 2.5rem;
+        }
+        .word {
+            display: block; /* 手机端如果太挤可以尝试分行，或者保持 inline 但减小字号 */
+        }
+    }
+
+    /* 分割线：灰色、居中、收缩 */
+    .section-divider {
+        width: 60%;
+        margin: 40px auto;
+        border: none;
+        border-top: 1px solid #ddd;
+    }
+
+    /* 卡片容器：透明背景，无外层白板 */
+    .cards-container {
+        background: transparent;
+        max-width: 1000px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        padding: 40px 20px;
+    }
+
+    /* 卡片基础状态 */
+    .info-card {
+        background-color: #ffffff;
+        display: flex;
+        align-items: center;
+        padding: 40px;
+        border-radius: 4px; /* 稍微没那么明显的圆角 */
+        border: none;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); /* 默认阴影 */
+        transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        transform: scale(0.96); /* 默认稍小 */
+        opacity: 0.8;
+    }
+
+    /* 滚动到正前方的放大展示状态 */
+    .info-card.active {
+        transform: scale(1.05); /* 放大 */
+        opacity: 1;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12); /* 阴影加深 */
+    }
+
+    /* 卡片内部组件 */
+    .card-image {
+        flex: 0 0 150px;
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        background: #f5f5f5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #bbb;
+    }
+
+    .card-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+    }
+
+    .info-card.active .card-image img{
+    transform: scale(1.05);
+    }
+
+    .vertical-line {
+        width: 1px;
+        height: 100px;
+        background-color: #eee;
+        margin: 0 40px;
+    }
+
+    .card-content { flex: 1; text-align: left; }
+
+    .card-title {
+        font-family: 'Julius Sans One', sans-serif;
+        font-weight: 700;
+        margin-bottom: 10px;
+        transition: color 0.3s ease;
+        cursor: pointer;
+    }
+
+    /* --- 小标题悬浮指定变色 --- */
+    .info-card[data-type="bio"] .card-title:hover { color: #22c55e; }      /* 绿 */
+    .info-card[data-type="mission"] .card-title:hover { color: #3b82f6; }   /* 蓝 */
+    .info-card[data-type="contents"] .card-title:hover { color: #eab308; }  /* 黄 */
+    .info-card[data-type="social"] .card-title:hover { color: #06b6d4; }    /* 青 */
+
+    .card-text { color: #666; line-height: 1.6; margin: 0; }
+
+
+    /* 容器全透明 */
+    .creators-section {
+        background: transparent;
+        padding: 40px 0;
+        text-align: center;
+    }
+
+    /* 标题二：指定悬停色 */
+    .section-title-h2 {
+        font-family: 'Julius Sans One', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+
+    .word { display: inline-block; transition: all 0.4s ease; cursor: default; }
+    .c-creators:hover { color: #06b6d4; transform: scale(1.1); } /* 青蓝 */
+    .c-ampersand:hover { color: #ef4444; transform: scale(1.2); } /* 红色 */
+    .c-tech:hover { color: #eab308; transform: scale(1.1); }      /* 黄色 */
+
+    .section-subtitle { color: #888; font-size: 0.9rem; margin-top: 10px; }
+
+    /* 节点进度条：比分割线长一点 */
+    .nodes-container {
+        width: 80%;
+        margin: 60px auto;
+        position: relative;
+        height: 4px;
+    }
+
+    .dotted-line {
+        width: 100%;
+        border-top: 3px dotted #555; /* 深灰色圆点虚线 */
+        position: absolute;
+        top: 50%;
+    }
+
+    .nodes-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .node {
+        width: 16px;
+        height: 16px;
+        background-color: #000; /* 黑色圆节点 */
+        border-radius: 50%;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .node.active {
+        background-color: #06b6d4;
+        transform: scale(1.4);
+    }
+
+    /* 展示面板：彻底无背景、无阴影 */
+    .info-panel-container {
+        max-width: 800px;
+        margin: 0 auto;
+        min-height: 420px;
+    }
+
+    .info-panel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: all 0.4s ease;
+        background: transparent;
+    }
+
+    .panel-image-row {
+        width: 250px; /* 稍微大一点的图片 */
+        height: 250px;
+        margin-bottom: 30px;
+        background: transparent;
+    }
+
+    .panel-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* 适合展示 Logo */
+    }
+
+    .panel-name {
+        font-family: 'Julius Sans One', sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #000;
+    }
+
+    .panel-bio {
+        color: #000; /* 纯黑简介 */
+        line-height: 1.8;
+        max-width: 550px;
+        margin: 0;
+    }
+</style>

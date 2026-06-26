@@ -1,0 +1,900 @@
+---
+interface Props {
+	title: string;
+}
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Julius+Sans+One&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+		<title>{title}</title>
+	</head>
+	<body>
+		<header class="site-header">
+			<nav class="nav-container">
+
+				<div class="brand">
+					<img src="/bloglogo.png" alt="AllezCrol Logo" class="site-logo" />
+					<span class="site-name">
+                        <a href="/" class="logo-link">AllezCrol</a>
+                    </span>
+				</div>
+
+				<div class="search-system" id="searchSystem">
+					<input type="search" placeholder="Search..." class="search-input" id="searchInput" />
+					<button class="search-toggle" id="searchToggle" aria-label="Toggle search">
+						<img src="/searchicon.png" alt="Search" />
+					</button>
+				</div>
+
+                <style is:global>
+                    .search-system {
+                        position: relative !important;
+                    }
+
+                    /* 搜索结果面板 - 加入动画基础设置 */
+                    #search-results {
+                        position: absolute !important;
+                        top: calc(100% + 5px) !important; /* 稍微往下偏一点，留出间隙 */
+                        right: 0;
+                        width: 250px;
+                        background: #111 !important;
+                        border: 1px solid #444;
+                        z-index: 10000;
+
+                        /* 动画核心：默认透明且缩小 */
+                        display: none;
+                        opacity: 0;
+                        transform: translateY(-10px) scale(0.98);
+                        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); /* 贝塞尔曲线让动效更高级 */
+
+                        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+                        border-radius: 4px;
+                        overflow: hidden;
+                    }
+
+                    /* 当结果框显示时（需配合 JS 修改） */
+                    #search-results.show {
+                        display: block; /* 注意：如果用 display:none 会破坏动画，见下方 JS 修改建议 */
+                        opacity: 1;
+                        transform: translateY(0) scale(1);
+                    }
+
+                    /* 搜索条目样式及悬停动画 */
+                    .search-item {
+                        display: block;
+                        padding: 12px 15px;
+                        color: #ccc !important;
+                        text-decoration: none !important;
+                        font-size: 14px;
+                        border-bottom: 1px solid #222;
+                        background: #111;
+
+                        /* 悬停平滑过渡 */
+                        transition: all 0.2s ease;
+                        position: relative;
+                        overflow: hidden;
+                    }
+
+                    /* 悬停高亮动画效果 */
+                    .search-item:hover {
+                        background: #222 !important;
+                        color: #fff !important;
+                        padding-left: 20px; /* 悬停时文字向右微动 */
+                    }
+
+                    /* 最后一个条目去底边框 */
+                    .search-item:last-child {
+                        border-bottom: none;
+                    }
+                </style>
+
+                <script>
+                    // 1. 你的页面数据表（手动在这里添加新页面）
+                    const wikiPages = [
+                        { name: "AllezCrol Intro", url: "/en/allezcrol" },
+                        { name: "Social", url:"/mains/social" },
+                        { name: "Privacy", url:"/mains/privacy"},
+                        { name: "qa", url:"/mains/qa"},
+                        { name: "chronic", url:"/chronic/chronic"},
+
+                    ];
+
+                    // 2. 获取你图片中对应的元素
+                    const searchInput = document.getElementById('searchInput');
+                    const searchSystem = document.getElementById('searchSystem');
+
+                    // 3. 动态创建结果容器（挂在 search-system 内部）
+                    const resultsContainer = document.createElement('div');
+                    resultsContainer.id = 'search-results';
+                    searchSystem.appendChild(resultsContainer);
+
+                    if (searchInput) {
+                        searchInput.addEventListener('input', (e) => {
+                            const query = e.target.value.toLowerCase().trim();
+                            resultsContainer.innerHTML = '';
+
+                            if (!query) {
+                                resultsContainer.style.display = 'none';
+                                return;
+                            }
+
+                            // 4. 匹配逻辑
+                            const matches = wikiPages.filter(page =>
+                                page.name.toLowerCase().includes(query)
+                            );
+
+                            // 在你的 input 监听事件里：
+
+                            if (matches.length > 0) {
+                                resultsContainer.innerHTML = ''; // 清空旧内容
+                                matches.forEach(page => {
+                                    const link = document.createElement('a');
+                                    link.href = page.url;
+                                    link.className = 'search-item';
+                                    link.innerText = page.name;
+                                    resultsContainer.appendChild(link);
+                                });
+
+                                // 触发动画：先 display 再加 class
+                                resultsContainer.style.display = 'block';
+                                setTimeout(() => {
+                                    resultsContainer.classList.add('show');
+                                }, 10);
+                            } else {
+                                // 隐藏动画
+                                resultsContainer.classList.remove('show');
+                                setTimeout(() => {
+                                    resultsContainer.style.display = 'none';
+                                }, 200); // 对应 CSS 的 transition 时间
+                            }
+                        });
+                    }
+
+                    // 点击外部关闭结果
+                    document.addEventListener('click', (e) => {
+                        if (!searchSystem.contains(e.target)) {
+                            resultsContainer.style.display = 'none';
+                        }
+                    });
+                </script>
+
+			</nav>
+		</header>
+
+
+		<main class="page-content">
+			<slot />
+		</main>
+
+
+        <main>
+            <div class="global-license-footer">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+               target="_blank"
+               class="license-link"
+               title="Unless otherwise specified, all open content on this website is licensed under the BY NC SA 4.0 protocol.">
+                <div class="license-black-frame">
+                    <img src="/public/by-nc-sa.png" alt="CC BY-NC-SA" style="width: 88px; height: 31px; display: block; image-rendering: pixelated;" />
+                </div>
+            </a>
+        </div>
+        </main>
+
+        <style>
+            /* 样式直接加在文件末尾的 <style> 块里，不要重复创建块 */
+            .global-license-footer {
+                margin-top: 80px;
+                padding: 20px 40px;
+            }
+            .license-black-frame {
+                background-color: #000;
+                padding: 4px;
+                display: inline-block;
+                line-height: 0;
+                border: 1px solid #000;
+                transition: all 0.3s ease;
+            }
+            .license-black-frame:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                border-color: #06b6d4;
+            }
+        </style>
+
+
+        <div class="footer-monitor-dashboard">
+            <div class="monitor-row">
+    <span class="monitor-item">
+      [OWNER]: <span class="val-owner">AllezCrol</span>
+    </span>
+
+                <span class="monitor-divider">|</span>
+
+                <span class="monitor-item">
+      REALTIME: <span id="monitor-clock">--:--</span>
+    </span>
+
+                <span class="monitor-divider">|</span>
+
+                <span class="monitor-item" id="uptime-container">
+      UPTIME: LOADING...
+    </span>
+
+                <span class="monitor-divider">|</span>
+
+                <span class="monitor-item">
+      RESP: <span id="perf-resp" class="perf-val">--</span><span class="lbl-ms">ms</span>
+    </span>
+
+                <span class="monitor-divider">|</span>
+
+                <span class="monitor-item">
+      LOAD: <span id="perf-load" class="perf-val">--</span><span class="lbl-ms">ms</span>
+    </span>
+            </div>
+        </div>
+
+
+		<footer class="site-footer">
+            <div class="footer-container">
+
+                <div class="footer-brand">
+                    <img src="/bloglogo.png" alt="AllezCrol Logo" class="footer-logo" />
+                    <span class="footer-name">AllezCrol</span>
+                    <p class="footer-slogan">About AllezCrol Creative.</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="link-column">
+                        <h3>CONTENT</h3>
+                        <a href="/chronic/chronic">CHRONIC</a>
+                        <a href="/projects">项目展示</a>
+                        <a href="/archive">归档</a>
+                        <a href="/tags">标签云</a>
+                    </div>
+                    <div class="link-column">
+                        <h3>PACKS</h3>
+                        <a href="/mains/feedback">Feedback</a>
+                        <a href="/tools">实用工具</a>
+                        <a href="/friends">友情链接</a>
+                        <a href="/rss.xml">RSS 订阅</a>
+                    </div>
+                    <div class="link-column">
+                        <h3>ABOUT</h3>
+                        <a href="/en/allezcrol">AllezCrol</a>
+                        <a href="/mains/social">Social</a>
+                        <a href="/mains/privacy">Privacy-Policy</a>
+                        <a href="/mains/qa">Q&A</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 AllezCrol. All Rights Reserved.</p>
+            </div>
+
+            <button id="backToTop" class="back-to-top" aria-label="返回顶部">
+                <img src="/back-to-top.png" alt="Top" />
+            </button>
+        </footer>
+
+		<style is:global>
+		:root {
+            /* 定义混合字体栈：英文优先 Julius，中文回退到系统黑体 */
+            --font-mixed: 'Julius Sans One', "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans CN", sans-serif;
+        }
+
+        /* 全局基础设置 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-mixed);
+            background-color: #f9f9f9;
+            color: #1a1a1a;
+            -webkit-font-smoothing: antialiased;
+            /* 1px 的间距对英文很帅，对中文也会增加一点阅读的呼吸感 */
+            letter-spacing: 1px;
+        }
+
+        /* 导航栏与品牌 */
+        .site-name, .footer-name {
+            font-family: var(--font-mixed);
+            font-weight: 700;
+            /* 暂时关闭强制大写，以便你以后输入中文名字时不会出现奇怪的缩进 */
+            text-transform: none;
+        }
+
+        /* 正文内容区域 */
+        .page-content {
+            font-family: var(--font-mixed);
+            line-height: 1.8;
+        }
+
+        /* 搜索框：支持中文搜索输入 */
+        .search-input {
+            font-family: var(--font-mixed);
+        }
+
+        /* 页脚链接标题 */
+        .link-column h3 {
+            font-family: var(--font-mixed);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: #ffffff;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        /* 页脚链接文字 */
+        .link-column a {
+            font-family: var(--font-mixed);
+            color: #888;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .link-column a:hover {
+            color: #ffffff;
+            /* 悬停时的小位移，对中文和英文都有效 */
+            transform: translateX(5px);
+        }
+			/* 基础重置，确保框架贴合 */
+			:root {
+				--header-bg: #1a1a1a; /* 现代黑 */
+				--header-text: #ffffff;
+				--accent: #3498db; /* 预留一个强调色 */
+			}
+			body {
+				margin: 0;
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+				background-color: #f9f9f9;
+			}
+
+			/* Header 框架 */
+			.site-header {
+                background-color: var(--header-bg);
+                color: var(--header-text);
+                padding: 0 1.5rem;
+                height: 64px;
+                display: flex;
+                align-items: center;
+
+                /* --- 核心置顶逻辑 --- */
+                position: sticky;     /* 粘性定位 */
+                top: 0;               /* 必须指定位置，否则不生效 */
+                z-index: 1000;        /* 确保层级足够高，不会被页面上的图片或卡片遮住 */
+
+                /* 可选：增加一点现代感 */
+                backdrop-filter: blur(8px); /* 如果你以后想把黑色背景调成半透明，这行会让背景有磨砂玻璃效果 */
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 给底部加一条极细的暗线，区分 Header 和内容 */
+            }
+
+			/* 导航容器 */
+			.nav-container {
+				width: 100%;
+				max-width: 1400px; /* 大屏限制 */
+				margin: 0 auto;
+				display: flex;
+				justify-content: space-between; /* 左右对齐的核心 */
+				align-items: center;
+			}
+
+			/* 品牌区域 */
+			.brand {
+				display: flex;
+				align-items: center;
+				gap: 12px; /* 图标和名字的间距 */
+				cursor: pointer;
+			}
+			.site-logo {
+				height: 32px;
+				width: auto;
+				/* 如果你的图标是黑色的，可以加这个滤镜让它反白，或者直接用白色图标 */
+				/* filter: invert(1); */
+			}
+			.site-name {
+				font-size: 1.25rem;
+				font-weight: 700;
+				letter-spacing: 0.5px;
+			}
+
+			/* ==============================
+			   搜索系统 CSS 动画
+			   ============================== */
+			/* 搜索系统容器 */
+            .search-system {
+                display: flex;
+                align-items: center;
+                gap: 12px; /* 让搜索框和图标之间有明确的间距 */
+                position: relative;
+            }
+
+            /* 🔍 图标按钮样式 */
+            .search-toggle {
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                z-index: 2;
+                order: 2; /* 确保图标始终在最右侧 */
+            }
+
+            .search-toggle img {
+                height: 20px;
+                width: 20px;
+                transition: transform 0.2s ease;
+            }
+
+            /* 尖角矩形内白搜索框 */
+            .search-input {
+                /* 基础视觉设定 */
+                background-color: #ffffff; /* 内白 */
+                color: #1a1a1a; /* 输入文字为深色 */
+                border: none; /* 既然背景是白的，不需要边框，或者加极细的灰色 */
+                border-radius: 0; /* 绝对尖角 (直角) */
+                padding: 6px 12px;
+                font-size: 0.9rem;
+                outline: none;
+
+                /* 动画与位置设定 */
+                width: 0;
+                opacity: 0;
+                visibility: hidden;
+                transition:
+                    width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                    opacity 0.3s ease,
+                    padding 0.3s ease;
+
+                order: 1; /* 确保搜索框在图标左侧弹出 */
+            }
+
+            /* 激活状态：点击 🔍 后 */
+            .search-system.active .search-input {
+                width: 200px; /* 弹出后的宽度 */
+                opacity: 1;
+                visibility: visible;
+                /* 如果需要微小的圆角可以改成 2px，纯直角则保持 0 */
+                border-radius: 2px;
+            }
+
+            /* 占位符颜色调整 */
+            .search-input::placeholder {
+                color: #999;
+            }
+
+            /* 页面主内容区域的容器 */
+            .page-content {
+                /* 1. 呼吸感：给顶部和侧边留出空间 */
+                padding: 2rem 1.5rem;
+
+                /* 2. 宽度控制：防止大屏幕上文字拉得太宽，影响阅读 */
+                max-width: 1200px;
+                margin: 0 auto; /* 水平居中 */
+
+                /* 3. 高度控制：确保即使页面只有一个标题，背景也不会断掉 */
+                /* 100vh 是屏幕高度，64px 是你 Header 的高度 */
+                min-height: calc(100vh - 64px);
+
+                /* 4. 盒子模型：确保 padding 不会把容器撑爆 */
+                box-sizing: border-box;
+            }
+
+            /* 页脚基础样式 */
+            .site-footer {
+                background-color: #1a1a1a; /* 保持与 Header 一致的现代黑 */
+                color: #ffffff;
+                padding: 4rem 1.5rem 2rem;
+                margin-top: auto; /* 如果内容少，页脚会撑到底部 */
+            }
+
+            .footer-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap; /* 适配手机端自动换行 */
+                gap: 3rem;
+            }
+
+            /* 左侧品牌 */
+            .footer-brand {
+                flex: 1;
+                min-width: 250px;
+            }
+            .footer-logo {
+                height: 40px;
+                margin-bottom: 1rem;
+            }
+            .footer-name {
+                display: block;
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin-bottom: 0.5rem;
+            }
+            .footer-slogan {
+                color: #888;
+                font-size: 0.9rem;
+            }
+
+            /* 中间三列链接 */
+            .footer-links {
+                flex: 2;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr); /* 核心：平分 3 列 */
+                gap: 2rem;
+            }
+            .link-column h3 {
+                font-size: 1rem;
+                margin-bottom: 1.2rem;
+                color: #fff;
+                font-weight: 600;
+            }
+            .link-column a {
+                display: block;
+                color: #888;
+                text-decoration: none;
+                margin-bottom: 0.8rem;
+                font-size: 0.9rem;
+                transition: color 0.2s ease;
+            }
+            .link-column a:hover {
+                color: #ffffff;
+            }
+
+            /* 底部版权 */
+            .footer-bottom {
+                max-width: 1200px;
+                margin: 2rem auto 0;
+                padding-top: 2rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.05);
+                text-align: center;
+                color: #555;
+                font-size: 0.8rem;
+            }
+
+            /* 返回顶部按钮 */
+            .back-to-top {
+                position: fixed;
+                right: 30px;
+                bottom: 30px;
+                background-color: #333;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 12px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                opacity: 0; /* 默认隐藏，滚下去才显示 */
+                visibility: hidden;
+                z-index: 999;
+            }
+            .back-to-top img {
+                width: 24px;
+                height: 24px;
+            }
+            .back-to-top.show {
+                opacity: 1;
+                visibility: visible;
+            }
+            .back-to-top:hover {
+                background-color: #444;
+                transform: translateY(-5px);
+            }
+
+                        /* ...之前的代码... */
+
+                        /* --- 中文环境微调 --- */
+                        /* 当 <html> 标签的 lang 属性为 "zh", "zh-CN" 或 "zh-TW" 时触发 */
+                        html[lang^="zh"] body {
+                            /* 1. 稍微降低字重：
+                               因为 Julius Sans One 的英文很纤细，中文默认字重在对比下会显得太“黑”太重。
+                               设置为 300 或 400 可以让中西文视觉重心更统一。 */
+                            font-weight: 300;
+
+                            /* 2. 微调字间距：
+                               英文适合 1px-2px 的间距，但中文如果间距太大像散架。
+                               我们把它调回一个更适合阅读的紧凑值。 */
+                            letter-spacing: 0.5px;
+                        }
+
+                        /* 针对中文标题的特殊处理 */
+                        html[lang^="zh"] h1,
+                        html[lang^="zh"] h2,
+                        html[lang^="zh"] h3 {
+                            font-weight: 600; /* 标题依然保持清晰的粗度 */
+                            letter-spacing: 1px;
+                        }
+
+        /* 针对页头标题链接的专项清理 */
+        .logo-link {
+            text-decoration: none !important; /* 强制去掉下划线 */
+            color: inherit !important;        /* 强制继承父级颜色，防止变蓝 */
+            cursor: pointer;                 /* 鼠标移上去依然有小手，提示可点击 */
+
+            /* 确保布局不因标签改变而抖动 */
+            display: inline-block;
+            font-weight: inherit;
+            font-size: inherit;
+        }
+
+        /* 如果你希望鼠标悬停时有点反馈，可以加个微弱的透明度变化 */
+        .logo-link:hover {
+            opacity: 0.9;
+        }
+
+		</style>
+
+
+        <style lang="scss">
+          // ==========================================
+          // 🎨 仪表盘全局配色控制面板（可随时修改）
+          // ==========================================
+          $color-owner: #000000;      // 所属权颜色
+          $color-clock: #00ffcc;      // 实时时间的颜色
+
+          // 倒计时/建站时间阶层色（由大到小循序渐进）
+          $color-tier-days:  #ff3b30; // Days: 烈焰红（象征积淀沉稳）
+          $color-tier-hours: #ff9500; // Hours: 脉冲橙
+          $color-tier-min:   #ffcc00; // Min: 主题黄
+          $color-tier-sec:   #34c759; // Sec: 极客绿（秒级闪烁跳动）
+
+          // 性能监控动态固定色
+          $color-ms-tag: #ff3b30;     // "ms" 标注死死固定为红色
+
+          .footer-monitor-dashboard {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0;
+            font-family: 'Courier New', Courier, monospace; // 强烈的代码等宽质感
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            color: #555555; // 基础暗灰标签色
+            border-top: 1px dashed rgba(255, 255, 255, 0.05);
+            margin-bottom: 10px;
+
+            .monitor-row {
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              flex-wrap: wrap;
+              justify-content: center;
+            }
+
+            .monitor-divider {
+              color: #222222;
+              user-select: none;
+            }
+
+            .monitor-item {
+              .val-owner { color: $color-owner; font-weight: bold; }
+              #monitor-clock { color: $color-clock; }
+
+              // 阶层时间动态上色
+              .tier-d { color: $color-tier-days; font-weight: bold; }
+              .tier-h { color: $color-tier-hours; font-weight: bold; }
+              .tier-m { color: $color-tier-min; font-weight: bold; }
+              .tier-s { color: $color-tier-sec; }
+              .lbl { color: #444444; margin-right: 2px; }
+
+              // ms 标注永远为红
+              .lbl-ms {
+                color: $color-ms-tag;
+                font-weight: bold;
+                margin-left: 1px;
+              }
+
+              // 性能数值三色状态机
+              .perf-val {
+                font-weight: bold;
+                transition: color 0.2s ease;
+
+                &.state-green  { color: #34c759; } // 优秀（绿）
+                &.state-yellow { color: #ffcc00; } // 一般（黄）
+                &.state-red    { color: #ff3b30; } // 延迟（红）
+              }
+            }
+          }
+
+        </style>
+
+        <style lang="scss">
+            @font-face {
+              font-family: 'Julius Sans One';
+              src:url("/fonts/JuliusSansOne-Regular.ttf") format("truetype");
+              font-weight: 400;
+              font-style: normal;
+              font-display: swap;
+            }
+        </style>
+
+
+
+		<script>
+        	// 封装一个初始化函数，适应 Astro 的生命周期
+        	function initSearch() {
+        		const searchSystem = document.getElementById('searchSystem');
+        		const searchToggle = document.getElementById('searchToggle');
+        		const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+
+        		if (!searchSystem || !searchToggle || !searchInput) return;
+
+        		// 点击 🔍 图标
+        		searchToggle.addEventListener('click', (e) => {
+        			e.stopPropagation(); // 防止点击事件冒泡到 document
+
+        			// 如果已经是激活状态，则执行搜索（现在是空逻辑）
+        			if (searchSystem.classList.contains('active')) {
+        				if (searchInput.value.trim()) {
+        					console.log('执行搜索:', searchInput.value);
+        					// 这里预留后续搜索系统的对接
+        				} else {
+        					// 如果没内容，再次点击则收起
+        					searchSystem.classList.remove('active');
+        				}
+        			} else {
+        				// 激活状态：弹出搜索框
+        				searchSystem.classList.add('active');
+        				searchInput.focus(); // 自动聚焦，方便直接输入
+        			}
+        		});
+
+        		// 点击页面其他区域收起搜索框
+        		document.addEventListener('click', (e) => {
+        			const target = e.target as Node;
+        			if (searchSystem.classList.contains('active') && !searchSystem.contains(target)) {
+        				searchSystem.classList.remove('active');
+        			}
+        		});
+
+        		// 按下 Esc 键收起
+        		document.addEventListener('keydown', (e) => {
+        			if (e.key === 'Escape' && searchSystem.classList.contains('active')) {
+        				searchSystem.classList.remove('active');
+        				searchToggle.focus(); // 焦点还给按钮
+        			}
+        		});
+        	}
+
+        	// 在页面加载时运行
+        	initSearch();
+
+        	// 在 initSearch() 之后添加这段逻辑
+            function initBackToTop() {
+                const backBtn = document.getElementById('backToTop');
+
+                window.addEventListener('scroll', () => {
+                    // 当滚动超过 300px 时显示按钮
+                    if (window.scrollY > 300) {
+                        backBtn.classList.add('show');
+                    } else {
+                        backBtn.classList.remove('show');
+                    }
+                });
+
+                backBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth' // 平滑滚动动画
+                    });
+                });
+            }
+
+            initBackToTop();
+
+        	// 如果你以后打算用 Astro 的 View Transitions (SPA模式)，需要监听这个事件
+        	// document.addEventListener('astro:after-swap', initSearch);
+        </script>
+
+        <script is:inline>
+        (function() {
+            // 💡 2026年5月11日 00:00:00 的绝对标准时间戳
+  const SITE_START_MS = 1778774400000;
+
+            function updateDashboard() {
+                try {
+                    const now = new Date();
+                    const pad = (n) => String(n).padStart(2, '0');
+
+                    // 1. 刷新实时时间
+      const clockEl = document.getElementById('monitor-clock');
+                    if (clockEl) {
+                        clockEl.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+                    }
+
+                    // 2. 刷新 UPTIME
+      const uptimeContainer = document.getElementById('uptime-container');
+                    if (uptimeContainer) {
+                        const diff = now.getTime() - SITE_START_MS;
+
+                        if (diff > 0) {
+                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                            const mins = Math.floor((diff / (1000 * 60)) % 60);
+                            const secs = Math.floor((diff / 1000) % 60);
+
+                            uptimeContainer.innerHTML = `UPTIME: ` +
+                                `<span class="tier-d">${pad(days)}</span><span class="lbl">d</span> ` +
+                                `<span class="tier-h">${pad(hours)}</span><span class="lbl">h</span> ` +
+                                `<span class="tier-m">${pad(mins)}</span><span class="lbl">m</span> ` +
+                                `<span class="tier-s">${pad(secs)}</span><span class="lbl">s</span>`;
+                        } else {
+                            uptimeContainer.innerHTML = `UPTIME: <span class="tier-d">00</span><span class="lbl">d</span> <span class="tier-h">00</span><span class="lbl">h</span> <span class="tier-m">00</span><span class="lbl">m</span> <span class="tier-s">00</span><span class="lbl">s</span>`;
+                        }
+                    }
+                } catch (e) {
+                    console.error("Dashboard calculation error:", e);
+                }
+            }
+
+            // 3. 性能加载模块（💡 彻底重构：用大于号 > 代替 小于号 <，彻底避开 Astro 编译器 Bug）
+  function updatePerformance() {
+                try {
+                    const respEl = document.getElementById('perf-resp');
+                    const loadEl = document.getElementById('perf-load');
+
+                    const applyColor = (el, val, g, y) => {
+                        if (!el) return;
+                        el.className = 'perf-val'; // 恢复初始状态
+
+                        if (val > y) {
+                            el.classList.add('state-red');      // 超过黄线，红灯
+        } else if (val > g) {
+                            el.classList.add('state-yellow');   // 超过绿线但没过黄线，黄灯
+        } else {
+                            el.classList.add('state-green');    // 没超过绿线，绿灯
+        }
+                    };
+
+                    const [nav] = performance.getEntriesByType('navigation');
+                    if (!nav) return;
+
+                    // 响应时间
+      const respTime = nav.responseStart - nav.requestStart;
+                    if (respEl && respTime > 0) {
+                        respEl.textContent = respTime.toFixed(3);
+                        applyColor(respEl, respTime, 50, 150);
+                    }
+
+                    // 加载时间
+      const loadTime = nav.loadEventEnd - nav.startTime;
+                    if (loadEl && loadTime > 0) {
+                        loadEl.textContent = Math.round(loadTime);
+                        applyColor(loadEl, loadTime, 300, 800);
+                    }
+                } catch (e) {}
+            }
+
+            // 启动高频刷表
+  updateDashboard();
+            setInterval(updateDashboard, 1000);
+
+            // 完美捕获性能毫秒
+  if (document.readyState === 'complete') {
+                setTimeout(updatePerformance, 50);
+        } else {
+                window.addEventListener('load', () => setTimeout(updatePerformance, 50));
+            }
+        })();
+        </script>
+
+	</body>
+</html>
+
+
+<style lang="scss" is:global>
+  @use "../style/web-mixins";
+</style>

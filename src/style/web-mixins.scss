@@ -1,0 +1,40 @@
+/* 📺 src/style/web-mixins.scss */
+
+// 使用 Webkit 核心直接在浏览器底层全量拦截，不依赖任何上层容器
+// 💡 没选中的时候：高级黑色（直接融入你的黑色主题，不显眼）
+::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+  background: #000000 !important;
+}
+
+// 隐藏两端的上下“小尖头”标志
+::-webkit-scrollbar-button {
+  display: none !important;
+}
+
+// 纯黑轨道底座
+::-webkit-scrollbar-track {
+  background: #000000 !important;
+}
+
+// 滑块常态：
+::-webkit-scrollbar-thumb {
+  background: #424242 !important; // 没选中时：隐蔽的深黑灰色
+  border: 1px solid #000000 !important;
+  border-radius: 4px !important;
+  transition: background 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+// 💡 选中/鼠标悬停（Hover）或 鼠标按住拖拽（Active）
+// 强制将伪类挂载到 html 和全局滚动条上，防止 Astro 局部打包时将其过滤
+html::-webkit-scrollbar-thumb:hover,
+html::-webkit-scrollbar-thumb:active,
+*::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:active {
+  background: #ffcc00 !important; // 💡 瞬间转为：机械纯黄
+
+  // 💡 强行注入：微弱黄光辐射圈
+  box-shadow: 0 0 14px rgba(255, 204, 0, 0.95),
+  inset 0 0 4px rgba(255, 255, 255, 0.4) !important;
+}

@@ -1,0 +1,107 @@
+/* Wiki 进阶提示模块 - 极致暗色质感 */
+:root {
+    --alert-red: #8b0000;    /* 深血红 */
+    --alert-gold: #855d00;   /* 古典金 */
+    --alert-green: #1b4332;  /* 森林绿 */
+    --alert-black: #1a1a1a;  /* 碳素黑 */
+}
+
+.wiki-alert {
+    display: flex;
+    margin: 2rem 0;
+    /* 核心质感：半透明 + 极细微的背景模糊 */
+    background: linear-gradient(145deg, rgba(20, 20, 20, 0.9), rgba(10, 10, 10, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    /* 这里的阴影会让模块看起来有厚度 */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.02);
+    border-radius: 2px; /* 趋向锐利，更符合硬核 Wiki 风格 */
+    overflow: hidden;
+    position: relative;
+}
+
+/* 左侧彩色发光条 */
+.wiki-alert::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--alert-color);
+    box-shadow: 2px 0 10px var(--alert-color); /* 向外扩散的微光 */
+    z-index: 1;
+}
+
+/* 颜色分类 */
+.alert-danger { --alert-color: var(--alert-red); }
+.alert-warning { --alert-color: var(--alert-gold); }
+.alert-success { --alert-color: var(--alert-green); }
+.alert-neutral { --alert-color: var(--alert-black); }
+
+/* 图标栏：调试尺寸核心区 */
+.alert-icon-box {
+    width: 64px;
+    min-width: 64px;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-right: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* 图标：支持图片、SVG，且强制居中 */
+.alert-icon-box img,
+.alert-icon-box svg {
+    width: 100%;
+    height: auto;
+    max-width: 30px; /* 这里根据你的图标素材手动微调 */
+    max-height: 30px;
+    object-fit: contain;
+    /* 进阶：给图标一个微弱的呼吸感滤镜 */
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.1));
+    transition: transform 0.3s ease;
+}
+
+/* 交互：鼠标滑过时图标微动 */
+.wiki-alert:hover .alert-icon-box img {
+    transform: scale(1.1);
+}
+
+/* 内容区 */
+.alert-content {
+    flex: 1;
+    padding: 18px 24px;
+}
+
+/* 提示词：提示，警告，禁令，争议 */
+.alert-type {
+    display: block;
+    font-size: 12px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.2em; /* 撑开字间距更有高级感 */
+    margin-bottom: 8px;
+    color: var(--alert-color);
+    filter: brightness(1.6) saturate(1.2); /* 标题色彩比侧条更明亮、纯净 */
+}
+
+/* 提示文本 */
+.alert-text {
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.7;
+    color: #a0a0a0;
+    font-weight: 300; /* 使用细体文字，增加科技感/档案感 */
+}
+
+/* 移动端处理：防止在手机上太挤 */
+@media (max-width: 640px) {
+    .alert-icon-box {
+        width: 50px;
+        min-width: 50px;
+    }
+    .alert-content {
+        padding: 15px;
+    }
+}
