@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import InfoBoxes from '../../../components/Templates2/InfoBoxes.astro';
+import InfoSection from '../../../components/Templates2/InfoSection.astro';
+import InfoRow from '../../../components/Templates2/InfoRow.astro';
+---
+
+<BaseLayout title=" Wiki - Zinx">
+
+    <InfoBoxes name="Zinx" image="/person/Zinx1.png">
+        <InfoSection title="基本信息">
+            <InfoRow label="身份(ID)">“V.C.I 特情部 - 探员”，联邦议会参部人员。</InfoRow>
+            <InfoRow label="出生日期(BTM)">1991.7.##</InfoRow>
+            <InfoRow label="年龄(AE)">27</InfoRow>
+            <InfoRow label="性别(M/F)">未知</InfoRow>
+            <InfoRow label="籍贯(HT)">A联邦/Borrtane/苫花谷市</InfoRow>
+            <InfoRow label="身份证(IDM)"><i>[No Data]</i></InfoRow>
+        </InfoSection>
+        <InfoSection title="状态">
+            <InfoRow label="生/死">alive</InfoRow>
+            <InfoRow label="身体机能">右肾功能衰退，但依照恢复能力暂时减缓伤势。</InfoRow>
+        </InfoSection>
+    </InfoBoxes>
+
+</BaseLayout>
+
+<style lang="scss">
+  @font-face {
+    font-family: 'OCR-A BT';
+    src: url('/fonts/OCR-a___.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  :global(*) {
+    font-family: 'OCR-A BT', monospace;
+  }
+</style>

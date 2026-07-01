@@ -1,9 +1,101 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 const { frontmatter } = Astro.props;
+
+const { name, image, imageAlt = "" } = Astro.props;
+const { title } = Astro.props;
+const { label } = Astro.props;
 ---
 
 <BaseLayout title={frontmatter.title}>
+
+    <aside class="infoboxes">
+        <div class="info-image">
+            <img src={image} alt={imageAlt} />
+        </div>
+        <div class="info-name">{name}</div>
+        <slot />
+    </aside>
+
+    <style lang="scss">
+      .infoboxes {
+        float: right;
+        width: 280px;
+        margin: 0 0 24px 32px;
+        background-color: #1a1a1a;
+        border: 1px solid #333;
+        color: #ccc;
+        font-size: 0.85rem;
+
+        .info-image {
+          width: 100%;
+
+          img {
+            width: 100%;
+            height: auto;
+            display: block;
+          }
+        }
+
+        .info-name {
+          text-align: center;
+          font-size: 1rem;
+          color: #ffffff;
+          padding: 10px;
+          background-color: #222;
+          border-bottom: 1px solid #333;
+          letter-spacing: 1px;
+        }
+      }
+    </style>
+
+
+    <div class="info-section">
+        <div class="info-section-title">{title}</div>
+        <slot />
+    </div>
+
+    <style lang="scss">
+      .info-section {
+        .info-section-title {
+          background-color: #2a2a2a;
+          color: #aaa;
+          padding: 6px 10px;
+          font-size: 0.8rem;
+          letter-spacing: 1px;
+          border-bottom: 1px solid #333;
+          text-transform: uppercase;
+        }
+      }
+    </style>
+
+
+    <div class="info-row">
+        <span class="info-label">{label}</span>
+        <span class="info-value"><slot /></span>
+    </div>
+
+    <style lang="scss">
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 10px;
+        border-bottom: 1px solid #2a2a2a;
+
+        .info-label {
+          color: #888;
+          flex: 1;
+        }
+
+        .info-value {
+          color: #ccc;
+          flex: 1;
+          text-align: right;
+        }
+      }
+    </style>
+
+
     <style lang="scss">
       @font-face {
         font-family: 'OCR-A BT';

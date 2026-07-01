@@ -1,0 +1,28 @@
+---
+const { label } = Astro.props;
+---
+
+<div class="info-row">
+    <span class="info-label">{label}</span>
+    <span class="info-value"><slot /></span>
+</div>
+
+<style lang="scss">
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-bottom: 1px solid #2a2a2a;
+
+    .info-label {
+      color: #888;
+      flex: 1;
+    }
+
+    .info-value {
+      color: #ccc;
+      flex: 1;
+      text-align: right;
+    }
+  }
+</style>
