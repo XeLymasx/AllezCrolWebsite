@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import LuTitle from '../../../components/Templates/LuTitle.astro';
+import SectionBlock from "../../../components/Templates/SectionBlock.astro";
+import IBox from '../../../components/Templates2/IBox.astro';
+import LibrarySearch from '../../../components/Templates2/LibrarySearch.astro';
+---
+
+<BaseLayout title="AllezCrol - CTIdex">
+    <LuTitle title="Characters" subtitle="角色档案储存机构" />
+
+    <SectionBlock title="Overview | 概要" barColor="rgb(112,128,144)" titleColor="#ffffff">
+        <p><b>Character</b> 索引项目档案机构专门负责收录《Chronic》系列当中 主要/次要 角色的专属档案，该项目也是本世界观创作历程当中不可或缺的
+        主要部分之一。</p>
+        <p>Character 项目会尽力将每一个角色所自身发生的任何事情以及其自身关联下的其他故事背景完美的呈现给大家。</p>
+
+        </SectionBlock>
+
+    <LibrarySearch>
+        <IBox title="Zinx" image="/person/Zinx3.png" href="/wip" tags="character" />
+
+        </LibrarySearch>
+</BaseLayout>

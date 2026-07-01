@@ -1,0 +1,94 @@
+---
+const { title, image, href = "#", tags = "" } = Astro.props;
+const truncated = title ? title.slice(0, 10) : "";
+---
+
+<a class="ibox-wrap" href={href} data-tags={tags}>
+    <div class="ibox-image">
+        <img src={image} alt={truncated} />
+    </div>
+    <div class="ibox-title">
+        <div class="ibox-title-bg"></div>
+        <span class="ibox-title-text">{truncated}</span>
+    </div>
+</a>
+
+<style is:global lang="scss">
+  @font-face {
+    font-family: 'OCR-A BT';
+    src: url('/fonts/OCR-a___.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .ibox-wrap {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    width: 180px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+
+      .ibox-title-bg {
+        transform: scaleX(1) !important;
+      }
+
+      .ibox-title-text {
+        color: #ffffff !important;
+      }
+    }
+
+    .ibox-image {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background-color: #ffffff;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+    }
+
+    .ibox-title {
+      position: relative;
+      padding: 8px 12px;
+      text-align: center;
+      overflow: hidden;
+
+      .ibox-title-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #1a1a1a;
+        transform: scaleX(0);
+        transform-origin: right center;
+        transition: transform 0.3s ease !important;
+        animation: none !important;
+        z-index: 0;
+      }
+
+      .ibox-title-text {
+        position: relative;
+        z-index: 1;
+        color: #000000;
+        font-size: 0.9rem;
+        font-family: 'OCR-A BT', monospace;
+        letter-spacing: 1px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        transition: color 0.3s ease;
+      }
+    }
+  }
+</style>

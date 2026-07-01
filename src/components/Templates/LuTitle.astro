@@ -1,0 +1,161 @@
+---
+const { title, subtitle } = Astro.props;
+---
+
+<div class="lu-title">
+    <canvas class="lu-shaft"></canvas>
+    <canvas class="lu-lines"></canvas>
+    <canvas class="lu-noise"></canvas>
+    <div class="lu-content">
+        <h1 class="lu-main">{title}</h1>
+        <p class="lu-sub">{subtitle}</p>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.lu-title').forEach((wrap) => {
+        const shaft = wrap.querySelector('.lu-shaft') as HTMLCanvasElement;
+        const lineC = wrap.querySelector('.lu-lines') as HTMLCanvasElement;
+        const noise = wrap.querySelector('.lu-noise') as HTMLCanvasElement;
+        const sCtx = shaft.getContext('2d')!;
+        const lCtx = lineC.getContext('2d')!;
+        const nCtx = noise.getContext('2d')!;
+
+        function resize() {
+            const r = wrap.getBoundingClientRect();
+            shaft.width = r.width; shaft.height = r.height;
+            lineC.width = r.width; lineC.height = r.height;
+            noise.width = r.width; noise.height = r.height;
+            return { w: r.width, h: r.height };
+        }
+        let d = resize();
+
+        const wallW = d.w * 0.16;
+
+        function makeBumps() {
+            const arr = [];
+            for (let i = 0; i < 5; i++) {
+                arr.push({ h: 16 + Math.random() * 12, gap: 55 + Math.random() * 35, fixed: i === 1 || i === 3 });
+            }
+            return arr;
+        }
+        const leftBumps = makeBumps();
+        const rightBumps = makeBumps();
+        let offset = 0;
+        const speed = 3;
+
+        function drawWallStrip(x: number, w: number, bumps: any[]) {
+            sCtx.fillStyle = '#161616';
+            sCtx.fillRect(x, 0, w, d.h);
+            const totalSpan = bumps.reduce((s, b) => s + b.gap + b.h, 0);
+            let y = -(offset % totalSpan);
+            let i = 0;
+            while (y < d.h) {
+                const b = bumps[i % bumps.length];
+                const by = y + b.gap;
+                if (by + b.h > 0) {
+                    sCtx.fillStyle = b.fixed ? '#2e2e2e' : '#1f1f1f';
+                    sCtx.fillRect(x, by, w, b.h);
+                }
+                y += b.gap + b.h;
+                i++;
+            }
+        }
+
+        const lineSpacing = d.h / 5;
+
+        function drawLines() {
+            lCtx.clearRect(0, 0, lineC.width, lineC.height);
+            for (let i = 0; i < 8; i++) {
+                let y = (i * lineSpacing + offset * 0.85) % (lineSpacing * 8) - lineSpacing * 1.5;
+                const isFixed = i % 4 === 1;
+                lCtx.strokeStyle = isFixed ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.2)';
+                lCtx.lineWidth = isFixed ? 2 : 1;
+                lCtx.beginPath();
+                lCtx.moveTo(0, y);
+                lCtx.lineTo(d.w, y);
+                lCtx.stroke();
+            }
+        }
+
+        function drawNoise() {
+            const w = noise.width, h = noise.height;
+            const img = nCtx.createImageData(w, h);
+            const px = img.data;
+            for (let i = 0; i < px.length; i += 4) {
+                const v = Math.random() > 0.5 ? Math.floor(Math.random() * 255) : 0;
+                const a = Math.random() * 18;
+                px[i] = v; px[i + 1] = v; px[i + 2] = v; px[i + 3] = a;
+            }
+            nCtx.putImageData(img, 0, 0);
+        }
+
+        function loop() {
+            sCtx.clearRect(0, 0, shaft.width, shaft.height);
+            drawWallStrip(0, wallW, leftBumps);
+            drawWallStrip(d.w - wallW, wallW, rightBumps);
+            drawLines();
+            offset += speed;
+            drawNoise();
+            requestAnimationFrame(loop);
+        }
+        loop();
+    });
+</script>
+
+<style lang="scss">
+  @font-face {
+    font-family: 'OCR-A BT';
+    src: url('/fonts/OCR-a___.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  .lu-title {
+    position: relative;
+    width: 100vw;
+    height: 260px;
+    margin-left: calc(-50vw + 50%);
+    background: #0c0c0c;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .lu-shaft { z-index: 0; }
+    .lu-lines { z-index: 1; }
+    .lu-noise { z-index: 2; opacity: 0.55; }
+
+    .lu-content {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+
+      .lu-main {
+        font-family: 'OCR-A BT', monospace;
+        font-size: 1.9rem;
+        color: #ffffff;
+        letter-spacing: 3px;
+        margin: 0;
+        font-weight: normal;
+      }
+
+      .lu-sub {
+        font-family: 'OCR-A BT', monospace;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.6);
+        letter-spacing: 2px;
+        margin: 8px 0 0 0;
+      }
+    }
+  }
+</style>
