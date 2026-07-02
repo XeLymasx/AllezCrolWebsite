@@ -1,0 +1,23 @@
+---
+const { color = "#333333", textColor = "#ffffff" } = Astro.props;
+---
+
+<span class="dtag" style={`background-color: ${color}; color: ${textColor}`}>
+  <slot />
+</span>
+
+<style lang="scss">
+  .dtag {
+    display: inline-block;
+    padding: 4px 12px;
+    font-family: 'OCR-A BT', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    clip-path: polygon(
+            1px 0%, calc(100% - 1px) 0%,
+            100% 1px, 100% calc(100% - 1px),
+            calc(100% - 1px) 100%, 1px 100%,
+            0% calc(100% - 1px), 0% 1px
+    );
+  }
+</style>

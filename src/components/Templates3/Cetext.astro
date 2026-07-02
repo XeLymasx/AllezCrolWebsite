@@ -1,0 +1,29 @@
+---
+const { color = "#ffffff" } = Astro.props;
+---
+
+<span class="cetext" style={`--glow-color: ${color}`}>
+  <slot />
+</span>
+
+<style lang="scss">
+  .cetext {
+    color: var(--glow-color);
+    font-family: 'OCR-A BT', monospace;
+    animation: glow-flicker 4s linear infinite;
+  }
+
+  @keyframes glow-flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+      color: var(--glow-color);
+      text-shadow:
+              0 0 4px var(--glow-color),
+              0 0 15px var(--glow-color),
+              0 0 30px var(--glow-color);
+    }
+    20%, 24%, 55% {
+      text-shadow: none;
+      color: rgba(255, 255, 255, 0.2);
+    }
+  }
+</style>

@@ -12,6 +12,7 @@ const { } = Astro.props;
     <div class="library-grid" id="libraryGrid">
         <slot />
     </div>
+    <div class="pagination" id="pagination"></div>
     <div class="divider"></div>
 </div>
 
@@ -19,26 +20,75 @@ const { } = Astro.props;
     const nameInput = document.getElementById('searchName') as HTMLInputElement;
     const tagInput = document.getElementById('searchTag') as HTMLInputElement;
     const grid = document.getElementById('libraryGrid');
-    const boxes = grid ? Array.from(grid.querySelectorAll('.ibox-wrap')) : [];
+    const pagination = document.getElementById('pagination');
+
+    const itemsPerPage = 36;
+    let currentPage = 1;
+    let filteredBoxes: HTMLElement[] = [];
+
+    function getAllBoxes() {
+        return grid ? Array.from(grid.querySelectorAll('.ibox-wrap')) as HTMLElement[] : [];
+    }
+
+    function showPage(page: number) {
+        currentPage = page;
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+
+        filteredBoxes.forEach((box, index) => {
+            box.style.display = index >= start && index < end ? 'block' : 'none';
+        });
+
+        renderPagination();
+    }
+
+    function renderPagination() {
+        if (!pagination) return;
+        const totalPages = Math.ceil(filteredBoxes.length / itemsPerPage);
+        pagination.innerHTML = '';
+
+        const prev = document.createElement('span');
+        prev.textContent = '<';
+        prev.className = 'page-btn' + (currentPage === 1 ? ' disabled' : '');
+        prev.addEventListener('click', () => { if (currentPage > 1) showPage(currentPage - 1); });
+        pagination.appendChild(prev);
+
+        const num = document.createElement('span');
+        num.textContent = `${currentPage}`;
+        num.className = 'page-num';
+        pagination.appendChild(num);
+
+        const next = document.createElement('span');
+        next.textContent = '>';
+        next.className = 'page-btn' + (currentPage === totalPages ? ' disabled' : '');
+        next.addEventListener('click', () => { if (currentPage < totalPages) showPage(currentPage + 1); });
+        pagination.appendChild(next);
+    }
 
     function filter() {
         const name = nameInput.value.toLowerCase();
         const tag = tagInput.value.toLowerCase();
+        const all = getAllBoxes();
 
-        boxes.forEach((box) => {
-            const el = box as HTMLElement;
-            const title = el.querySelector('.ibox-title-text')?.textContent?.toLowerCase() || '';
-            const tags = (el.dataset.tags || '').toLowerCase();
+        filteredBoxes = all.filter((box) => {
+            const title = box.querySelector('.ibox-title-text')?.textContent?.toLowerCase() || '';
+            const tags = (box.dataset.tags || '').toLowerCase().split(',').map(t => t.trim());
 
-            const matchName = name === '' || title.includes(name);
-            const matchTag = tag === '' || tags.includes(tag);
+            const matchName = name === '' || title.split(' ').some(word => word.startsWith(name));
+            const matchTag = tag === '' || tags.some(t => t.startsWith(tag));
 
-            el.style.display = matchName && matchTag ? 'block' : 'none';
+            return matchName && matchTag;
         });
+
+        all.forEach(box => box.style.display = 'none');
+        currentPage = 1;
+        showPage(1);
     }
 
     nameInput?.addEventListener('input', filter);
     tagInput?.addEventListener('input', filter);
+
+    filter();
 </script>
 
 <style lang="scss">
@@ -86,10 +136,49 @@ const { } = Astro.props;
     }
 
     .library-grid {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
       display: grid;
-      grid-template-columns: repeat(9, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 20px;
       padding: 32px 40px;
+      box-sizing: border-box;
+
+    }
+
+    .pagination {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      padding: 24px 0;
+      font-family: 'OCR-A BT', monospace;
+      font-size: 0.9rem;
+
+      .page-btn {
+        cursor: pointer;
+        color: #000;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #cc0000;
+        }
+
+        &.active {
+          color: #cc0000;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .page-num {
+      color: #000000;
+      font-family: 'OCR-A BT', monospace;
+      font-size: 0.9rem;
+    }
+
+    .disabled {
+      color: #cccccc;
+      cursor: not-allowed;
     }
   }
 </style>

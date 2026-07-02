@@ -3,9 +3,15 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import InfoBoxes from '../../../components/Templates2/InfoBoxes.astro';
 import InfoSection from '../../../components/Templates2/InfoSection.astro';
 import InfoRow from '../../../components/Templates2/InfoRow.astro';
+import Resize from '../../../components/Templates2/Resize.astro';
+import Dtag from '../../../components/Templates2/Dtag.astro';
+import Mtag from '../../../components/Templates2/Mtag.astro';
+import Cetext from '../../../components/Templates3/Cetext.astro';
 ---
 
 <BaseLayout title=" Wiki - Zinx">
+
+
 
     <InfoBoxes name="Zinx" image="/person/Zinx1.png">
         <InfoSection title="基本信息">
@@ -17,10 +23,37 @@ import InfoRow from '../../../components/Templates2/InfoRow.astro';
             <InfoRow label="身份证(IDM)"><i>[No Data]</i></InfoRow>
         </InfoSection>
         <InfoSection title="状态">
-            <InfoRow label="生/死">alive</InfoRow>
-            <InfoRow label="身体机能">右肾功能衰退，但依照恢复能力暂时减缓伤势。</InfoRow>
+            <InfoRow label="生/死"><Cetext color="#90EE90">alive</Cetext></InfoRow>
+            <InfoRow label="能力/身体机能">
+                <ul>
+                    <li>I级自愈能力</li>
+                    <li>II级引力自适应</li>
+                    <li>Mega级杀伤力</li>
+                    <li>Mega级杀伤范围</li>
+                    <li>近光速杀伤速率</li>
+                    <li>I级脑力算法</li>
+                    <li>V级精神毅力</li>
+                </ul>
+
+            </InfoRow>
+        </InfoSection>
+        <InfoSection title="个人域">
+            <InfoRow label="性格">
+                自私，自傲，傲慢，骄横跋扈，机智，嫌烦，无同情心，蛮横，较真，极端报复心理。
+            </InfoRow>
+            <InfoRow label="宇宙">HE-010E 异常域</InfoRow>
         </InfoSection>
     </InfoBoxes>
+    <Resize>
+    <h1>Zinx</h1>
+        <hr>
+        <Mtag>
+            <Dtag color="#cc0000">Characters</Dtag>
+            <Dtag color="#808080">VCI Agents</Dtag>
+        </Mtag>
+
+    <p>hello world 你好</p>
+    </Resize>
 
 </BaseLayout>
 
